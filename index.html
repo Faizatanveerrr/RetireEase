@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RetireEase | Your Retirement Resource Center</title>
+  <style>
+    :root {
+      --primary:#253B80;
+      --primary-dark:253B80 ;
+      --complementary: #EDB82F;
+      --text-dark: #4F4F4F;
+      --bg-light: #F5F7FA;
+      --footer-bg: #1E3A8A;
+      --white: #FFFFFF;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: var(--white);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      position: sticky;
+      top: 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    header h1 {
+      color: var(--primary);
+      font-size: 1.6rem;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: var(--primary);
+      background: none;
+      border: none;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: var(--text-dark);
+      font-weight: 500;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+    }
+
+    nav ul li a:hover {
+      color: var(--primary);
+    }
+
+    .btn-login, .btn-signup{
+      padding: 6px 14px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .btn-login {
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      transition: 0.3s;
+    }
+
+    .btn-login:hover {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+
+    .btn-signup {
+      background-color: var(--primary);
+      color: var(--white);
+      transition: 0.3s;
+    }
+
+    .btn-signup:hover {
+      background-color: var(--primary-dark);
+    }
+
+    /* Sidebar mobile menu */
+    nav {
+      position: relative;
+    }
+
+    nav ul.sidebar {
+      position: fixed;
+      top: 0;
+      right: -250px;
+      width: 250px;
+      height: 100vh;
+      background: var(--white);
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 60px 20px;
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+      transition: right 0.4s ease;
+      z-index: 1500;
+    }
+
+    nav ul.sidebar.active {
+      right: 0;
+    }
+
+    nav ul.sidebar li a {
+      font-size: 1rem;
+      color: var(--text-dark);
+    }
+
+    nav ul.sidebar li a:hover {
+      color: var(--primary);
+    }
+
+    .close-btn{
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.8rem;
+      color: var(--primary);
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    @media (max-width: 768px) {
+      nav ul:not(.sidebar) {
+        display: none;
+      }
+      .menu-toggle {
+        display: block;
+      }
+    }
+
+    .hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+        url('pexels-mart-production-7329701.jpg') no-repeat center center/cover;
+      color: var(--white);
+      text-align: center;
+      padding: 120px 20px;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      margin-bottom: 25px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero a {
+      background-color: var(--primary);
+      padding: 10px 24px;
+      border-radius: 25px;
+      color: var(--white);
+      text-decoration: none;
+      margin: 8px;
+      font-size: 0.95rem;
+      transition: 0.3s;
+      display: inline-block;
+    }
+
+    .hero a:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .section-banner1 {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .section-banner1 img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    section {
+      padding: 60px 30px;
+      text-align: center;
+    }
+
+    h3.section-title1 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 30px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      width: 100%;
+      padding: 0 10px;
+    }
+
+    .card{
+      background: var(--white);
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: 0.3s;
+      border-top: 4px solid var(--primary);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      border-top: 4px solid var(--complementary);
+    }
+    
+  
+    .post-form {
+      background: var(--white);
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: left;
+      width: 100%;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      border-left: 5px solid var(--complementary);
+    }
+
+    .post-form input, .post-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .post-form button {
+      background-color: var(--complementary);
+      color: var(--white);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: 0.3s;
+    }
+
+    .post-form button:hover {
+      background-color: var(--primary);
+    }
+
+    .leaderboard {
+      background-color: var(--white);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-top: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      border-top: 4px solid var(--complementary);
+    }
+
+    .leaderboard h4 {
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+
+    .leaderboard ol li:first-child {
+      color: var(--complementary);
+      font-weight: bold;
+    }
+
+
+
+    .footer {
+      background-color: var(--footer-bg);
+      color: var(--white);
+      text-align: center;
+      padding: 25px 10px;
+      font-size: 0.85rem;
+      margin-top: 50px;
+    }
+    .site-footer {
+      background: linear-gradient(180deg, #0f1724 0%, #0b1220 100%);
+      color: #e6eef8;
+      padding: 48px 28px 18px;
+      margin-top: 48px;
+      font-size: 0.95rem;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .footer-col h4 {
+      color: #fff;
+      margin-bottom: 14px;
+      font-size: 1.05rem;
+      letter-spacing: 0.2px;
+    }
+
+    .footer-brand .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .footer-logo svg { border-radius: 8px; }
+    .brand-name { font-weight: 600; font-size: 1.05rem; color: #fff; }
+
+    .footer-desc {
+      color: rgba(230,238,248,0.85);
+      margin-bottom: 10px;
+      line-height: 1.5;
+      max-width: 330px;
+    }
+
+    .footer-link {
+      display: inline-block;
+      color: #EDB82F;
+      margin-bottom: 18px;
+      text-decoration: none;
+    }
+
+    .socials a {
+      display: inline-block;
+      margin-right: 10px;
+      opacity: 0.95;
+      transition: transform .15s, opacity .15s;
+    }
+    .socials a:hover { transform: translateY(-3px); opacity: 1; }
+
+    .footer-nav ul,
+    .footer-join ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      line-height: 2.0;
+    }
+
+    .footer-nav a,
+    .footer-join a {
+      color: rgba(230,238,248,0.9);
+      text-decoration: none;
+      transition: color .15s;
+      font-weight: 500;
+    }
+    .footer-nav a:hover, .footer-join a:hover { color: var(--complementary); }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 26px auto 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.86rem;
+      color: rgba(230,238,248,0.7);
+    }
+
+    .policies a {
+      color: rgba(230,238,248,0.7);
+      text-decoration: none;
+      margin: 0 6px;
+    }
+    .policies a:hover { color: var(--white); }
+    .sep { margin: 0 6px; color: rgba(230,238,248,0.3); }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .footer-inner { grid-template-columns: 1fr; gap: 18px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; padding-top: 14px; }
+      .footer-desc { max-width: 100%; }
+    }
+  
+  </style>
+</head>
+<body>
+  <header>
+    <h1>RetireEase</h1>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Health</a></li>
+        <li><a href="#">Finance</a></li>
+        <li><a href="#">Community</a></li>
+        
+        <li><a href="#" class="btn-login">Login</a></li>
+        <li><a href="#" class="btn-signup">Sign Up</a></li>
+      </ul>
+      <ul class="sidebar" id="sidebar">
+        <button class="close-btn" id="closeBtn">×</button>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Health</a></li>
+        <li><a href="#">Finance</a></li>
+        <li><a href="#">Community</a></li>
+        <li><a href="#">Blogs</a></li>
+        <li><a href="#">Tools & Resources</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#" class="btn-login">Login</a></li>
+        <li><a href="#" class="btn-signup">Sign Up</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    
+    <h2>Your Retirement Resource Center</h2>
+    <p>Empowering you to plan smart, live healthy, and stay connected — all in one place.</p>
+    <a href="#">Explore Resources</a>
+    <a href="#">Join the Community</a>
+  </section>
+
+
+
+  <section id="features">
+    <h3 class="section-title">Explore Key Sections</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>Health</h4>
+        <p>Access wellness tips, fitness programs, and medical guidance to stay active and healthy.</p>
+      </div>
+      <div class="card">
+        <h4>Finance</h4>
+        <p>Manage your retirement funds with budgeting tools, investment guides, and pension planners.</p>
+      </div>
+      <div class="card">
+        <h4>Community</h4>
+        <p>Connect with other retirees through forums, virtual meetups, and social events.</p>
+      </div>
+      <div class="card">
+        <h4>Blogs</h4>
+        <p>Share your insights, experiences, and stories while engaging with the community to inspire others.</p>
+      </div>
+    </div>
+    <div class="cards" id="blogContainer"></div>
+
+  </section>
+   <section id="blogs">
+   
+    <h3 class="section-title">Community Blogs</h3>
+
+    <div class="cards" id="blogContainer"></div>
+
+    <div class="leaderboard1">
+      <h4>🏆 Top Bloggers</h4>
+      <ol id="leaderboardList"></ol>
+    </div>
+  </section>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col footer-brand">
+        <!-- small logo (SVG) -->
+        <div class="footer-logo">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="4" fill="#EDB82F"></rect>
+            <path d="M7 15c1-2 5-6 10-7" stroke="#111827" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="brand-name">RetireEase</span>
+        </div>
+
+        <p class="footer-desc">
+          A one-stop resource to plan retirement well — health advice, financial tools, and a warm community.
+        </p>
+
+      
+
+        <div class="socials">
+          <!-- simple circular icons -->
+          <a aria-label="Facebook" href="#"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#333"/><path d="M14 9h1.8V6.8H14c-1.1 0-1.8.7-1.8 1.8V11H10v2h2.2v6h2.6v-6H16l.4-2h-2.2V7.8c0-.4.2-.8.8-.8z" fill="#fff"/></svg></a>
+          <a aria-label="Instagram" href="#"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#333"/><path d="M8 7h8v10H8z" fill="#fff" opacity="0.95"/></svg></a>
+          <a aria-label="YouTube" href="#"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#333"/><path d="M10 9l5 3-5 3V9z" fill="#fff"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col footer-nav">
+        <h4>Explore</h4>
+        <ul>
+        <li><a href="#">Yoga</a></li>
+          <li><a href="#">Meditation</a></li>
+          <li><a href="#">Wellness</a></li>
+     
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-join">
+        <h4>Join Us In-Person</h4>
+        <ul>
+          <li><a href="#">Retreat Center</a></li>
+         
+          <li><a href="#">Wellness Retreats</a></li>
+         
+          <li><a href="#">Join Our Community</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="copyright">© 2025 RetireEase. All Rights Reserved.</div>
+      <div class="policies">
+        <a href="#">Privacy Policy</a>
+        <span class="sep">|</span>
+        <a href="#">Terms of Service</a>
+        <span class="sep">|</span>
+        <a href="#">Refund Policy</a>
+        <span class="sep">|</span>
+        <a href="#">Cookie Preferences</a>
+      </div>
+    </div>
+  </footer>
+    
+
+ 
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const closeBtn = document.getElementById('closeBtn');
+
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.add('active');
+    });
+
+    closeBtn.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+    });
+     async function fetchLeaderboard() {
+      try {
+        const res = await fetch('/api/leaderboard');
+        const data = await res.json();
+        const leaderboardList = document.getElementById('leaderboardList');
+        leaderboardList.innerHTML = '';
+        data.forEach(user => {
+          const li = document.createElement('li');
+          li.textContent = `${user.username} — ${user.likes} Likes, ${user.reach} Reach`;
+          leaderboardList.appendChild(li);
+        });
+      } catch (err) {
+        console.error('Error fetching leaderboard:', err);
+      }
+    }
+
+    setInterval(fetchLeaderboard, 86400000);
+
+    document.getElementById('blogForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('blogTitle').value;
+      const content = document.getElementById('blogContent').value;
+      const blogContainer = document.getElementById('blogContainer');
+
+      const blogCard = document.createElement('div');
+      blogCard.classList.add('card');
+      blogCard.innerHTML = `<h4>${title}</h4><p>${content}</p>`;
+      blogContainer.prepend(blogCard);
+
+      try {
+        await fetch('/api/blogs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, content })
+        });
+        document.getElementById('blogForm').reset();
+      } catch (err) {
+        console.error('Error posting blog:', err);
+      }
+    });
+
+    fetchLeaderboard();
+  </script>
+</body>
+</html>
