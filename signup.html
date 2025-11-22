@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetireEase - Sign Up</title>
+    <style>
+        /* Set up background image */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url('retire1.jpg'); /* Replace with your background image URL */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 8px;
+            width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007BFF; /* Blue color for website name */
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .input-group input:focus {
+            border-color: #007BFF; /* Blue color for input focus */
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF; /* Blue color for the submit button */
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .form-footer a {
+            color: #007BFF; /* Blue color for the link */
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-container">
+        <h1>RetireEase</h1> <!-- Website name -->
+        <h2>Sign Up</h2>
+        <form id="signupForm" onsubmit="return validateForm()">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                <div id="usernameError" class="error-message"></div>
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <div id="emailError" class="error-message"></div>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <div id="passwordError" class="error-message"></div>
+            </div>
+
+            <div class="input-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                <div id="confirmPasswordError" class="error-message"></div>
+            </div>
+
+            <button type="submit" class="submit-btn">Sign Up</button>
+        </form>
+        <div class="form-footer">
+            <p>Already have an account? <a href="login page.html">Login here</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function validateForm() {
+        let isValid = true;
+
+        // Clear previous error messages
+        document.getElementById('usernameError').textContent = '';
+        document.getElementById('emailError').textContent = '';
+        document.getElementById('passwordError').textContent = '';
+        document.getElementById('confirmPasswordError').textContent = '';
+
+        // Validate username
+        let username = document.getElementById('username').value;
+        if (username.length < 5) {
+            document.getElementById('usernameError').textContent = 'Username must be at least 5 characters long.';
+            isValid = false;
+        }
+
+        // Validate email
+        let email = document.getElementById('email').value;
+        let emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (!emailPattern.test(email)) {
+            document.getElementById('emailError').textContent = 'Please enter a valid email address.';
+            isValid = false;
+        }
+
+        // Validate password
+        let password = document.getElementById('password').value;
+        if (password.length < 6) {
+            document.getElementById('passwordError').textContent = 'Password must be at least 6 characters long.';
+            isValid = false;
+        }
+
+        // Validate confirm password
+        let confirmPassword = document.getElementById('confirmPassword').value;
+        if (confirmPassword !== password) {
+            document.getElementById('confirmPasswordError').textContent = 'Passwords do not match.';
+            isValid = false;
+        }
+
+        return isValid;
+    }
+</script>
+
+</body>
+</html>

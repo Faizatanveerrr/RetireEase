@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RetireEase — Finance</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --accent: #19376d;
+      --primary: #335eea;
+      --primary-600: #2749c8;
+      --glass: rgba(255,255,255,0.65);
+      --glass-2: rgba(19,55,109,0.06);
+      --max-width: 1180px;
+      --radius: 14px;
+      --shadow-sm: 0 6px 20px rgba(20,20,50,0.06);
+      --shadow-lg: 0 10px 40px rgba(20,20,50,0.09);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #f7f9fe, var(--bg));
+      color:#111827;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    /* Header */
+    header{
+      position:sticky;
+      top:0;
+      z-index:1200;
+      background:rgba(255,255,255,0.9);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 1px 0 rgba(20,20,50,0.04);
+      border-bottom: 1px solid rgba(16,24,40,0.03);
+    }
+    .header-inner{
+      max-width:var(--max-width);
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 20px;
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;font-weight:700;color:var(--accent)
+    }
+    .brand img{width:40px;height:40px;border-radius:8px;object-fit:cover;filter:grayscale(100%) contrast(0.95) brightness(0.95)}
+    nav.desktop{display:flex;gap:18px;align-items:center}
+    nav.desktop a{color:#334155;text-decoration:none;font-weight:600;padding:8px 12px;border-radius:10px}
+    nav.desktop a.active{background:linear-gradient(90deg,var(--primary),var(--primary-600)); color:white; box-shadow:var(--shadow-sm)}
+    .hamburger{display:none;cursor:pointer;border:none;background:transparent;padding:8px;border-radius:8px}
+    .hamburger svg{width:24px;height:24px;color:var(--accent)}
+
+    /* Container */
+    .container{max-width:var(--max-width);margin:0 auto;padding:20px;width:100%}
+
+    /* Hero */
+    .hero{
+      margin-top:16px;
+      border-radius:18px;
+      overflow:hidden;
+      position:relative;
+      min-height:300px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+   .hero-bg{
+  position: absolute;
+  inset: 0;
+  background-image: url('financwe.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1.02);
+  filter: contrast(0.9) saturate(0.92);
+}
+
+    .hero-overlay{ position:absolute; inset:0; background: linear-gradient(180deg, rgba(9,30,66,0.50), rgba(9,30,66,0.28));}
+    .hero-content{
+      position:relative; z-index:2; color:white; text-align:center; padding:36px 22px; max-width:980px;
+      display:flex;flex-direction:column;gap:12px; align-items:center;
+     
+    }
+    .hero h1{font-size:28px;margin:0;font-weight:800;letter-spacing:0.2px}
+    .hero p{margin:0;opacity:0.95;max-width:820px}
+    .hero-ctas{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
+    .btn{
+      display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;border:none;cursor:pointer;font-weight:700;
+      box-shadow:none;transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .btn-primary{background:var(--primary);color:white}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:var(--shadow-sm)}
+    .btn-ghost{background:transparent;color:white;border:1px solid rgba(255,255,255,0.18)}
+    .hero-badge{
+      margin-top:8px;background:rgba(255,255,255,0.06);padding:6px 10px;border-radius:999px;font-size:13px;color:#e6eefc;border:1px solid rgba(255,255,255,0.04)
+    }
+
+    /* Tools & Cards */
+    .section-title{display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);margin-top:22px}
+    .cards{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:18px;
+    }
+    .card{
+      background:linear-gradient(180deg,var(--card),#fbfdff);
+      border-radius:14px;padding:18px;box-shadow:var(--shadow-lg);border:1px solid var(--glass-2);
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(15,23,42,0.08)}
+    .card h3{margin:0;color:var(--accent);font-size:16px}
+    .card p{margin:8px 0 0;color:var(--muted);font-size:14px;line-height:1.35}
+
+    /* Budget Tracker */
+    .budget{
+      margin-top:22px;background:transparent;padding:6px;
+    }
+    .tx-form{
+      display:grid;grid-template-columns: 1fr 140px 130px 150px auto;gap:10px;
+      align-items:center;
+      margin-top:8px;
+    }
+    .tx-form input,.tx-form select{padding:12px;border-radius:10px;border:1px solid #e6e9ef;background:white;font-size:14px}
+    .tx-form .btn{padding:10px 14px;border-radius:10px}
+    .summary{
+      display:grid;grid-template-columns: repeat(3,1fr);gap:12px;margin-top:14px;
+    }
+    .summary .stat{
+      background:var(--card);padding:14px;border-radius:10px;box-shadow:var(--shadow-sm);text-align:center;border:1px solid var(--glass-2)
+    }
+    .stat .label{font-size:13px;color:var(--muted)}
+    .stat .value{margin-top:6px;font-weight:800;font-size:18px;color:#0f172a}
+
+    .tx-list{margin-top:14px;display:flex;flex-direction:column;gap:10px;padding:0;list-style:none}
+    .tx-item{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:10px;background:var(--card);border:1px solid var(--glass-2);box-shadow:var(--shadow-sm)}
+    .tx-left{display:flex;align-items:center;gap:12px}
+    .tx-cat{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#eaf2ff,#f6f9ff);font-weight:700;color:var(--primary)}
+    .tx-meta{color:var(--muted);font-size:13px}
+    .tx-right{text-align:right}
+    .delete-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;padding:6px;border-radius:8px}
+
+    /* Savings & Receipts */
+    .two-col{display:grid;grid-template-columns: 1fr 1fr;gap:18px;margin-top:18px}
+    .panel{background:var(--card);padding:16px;border-radius:12px;border:1px solid var(--glass-2);box-shadow:var(--shadow-sm)}
+    .panel h4{margin:0 0 8px;color:var(--accent)}
+    .panel label{font-size:13px;color:var(--muted);display:block;margin-top:8px}
+    .panel input{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ef;margin-top:6px}
+
+    .upload-area{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .upload-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;border:1px dashed #dbe7ff;background:linear-gradient(180deg,#fff,#fbfdff);cursor:pointer}
+    .preview-grid{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+
+    .chart-card{margin-top:16px;padding:12px;border-radius:12px;background:var(--card);border:1px solid var(--glass-2);box-shadow:var(--shadow-sm)}
+    .chart-responsive{position:relative;width:100%;min-height:200px}
+
+    footer{margin-top:36px;text-align:center;color:var(--muted);padding:24px 6px}
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1000px){
+      .cards{grid-template-columns: repeat(2, 1fr)}
+      .tx-form{grid-template-columns: 1fr 120px 110px 130px auto}
+      .two-col{grid-template-columns: 1fr}
+    }
+    @media (max-width: 720px){
+      .header-inner{padding:10px 14px}
+      nav.desktop{display:none}
+      .hamburger{display:block}
+      .hero{min-height:220px;border-radius:12px}
+      .hero h1{font-size:20px}
+      .hero p{font-size:14px}
+      .cards{grid-template-columns:1fr}
+      .tx-form{grid-template-columns:1fr;gap:10px}
+      .tx-form input,.tx-form select{width:100%}
+      .summary{grid-template-columns:1fr}
+      .two-col{grid-template-columns:1fr}
+      .brand img{width:34px;height:34px}
+    }
+
+    /* Mobile nav drawer */
+    .mobile-nav{
+      position:fixed;inset:0;background:rgba(6,8,15,0.45);display:none;z-index:1400;
+    }
+    .mobile-nav .panel{position:fixed;right:0;top:0;height:100%;width:84%;max-width:320px;background:linear-gradient(180deg,#fff,#fbfdff);box-shadow: -20px 0 60px rgba(12,15,30,0.12);padding:20px;overflow:auto}
+    .mobile-nav a{display:block;padding:12px 8px;border-radius:8px;color:#0f172a;text-decoration:none;font-weight:600;margin-top:6px}
+    .mobile-nav .close{background:transparent;border:none;position:absolute;left:12px;top:12px;padding:8px;cursor:pointer}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <img src="retireeaselogo.png" alt="logo">
+        <div>RetireEase</div>
+      </div>
+
+      <nav class="desktop" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="health.html">Health</a>
+        <a href="community.html">Community</a>
+        <a href="finance.html" class="active" aria-current="page">Finance</a>
+      </nav>
+
+      <button class="hamburger" id="openNav" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12h18M3 6h18M3 18h18"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile nav -->
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <div class="panel" role="dialog" aria-modal="true" aria-label="Mobile menu">
+      <button class="close" id="closeNav" aria-label="Close menu">&times;</button>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="health.html">Health</a>
+        <a href="community.html">Community</a>
+        <a href="finance.html" class="active">Finance</a>
+      </nav>
+    </div>
+  </div>
+
+  <main class="container" id="main">
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-bg" role="img" aria-hidden="true"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
+
+      <div class="hero-content" id="heroTitle">
+        <div class="hero-badge">Finance • Tools & Planning</div>
+        <h1>Your Financial Well-being</h1>
+        <p>Smart tools for budgeting, tracking expenses, planning savings, and storing receipts — made simple and accessible.</p>
+        <div class="hero-ctas">
+          <button class="btn btn-primary" id="openBudgetBtn">Open Budget Tracker</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('sMonthly').focus()">Savings Planner</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools -->
+    <div class="section-title">Finance Tools</div>
+    <div class="cards" role="list" aria-label="Finance tools">
+      <div class="card" role="listitem">
+        <h3>Budget Tracker</h3>
+        <p>Quickly log incomes and expenses, categorize, and track monthly balance.</p>
+      </div>
+      <div class="card" role="listitem">
+        <h3>Investment Planner</h3>
+        <p>Estimate future corpus for regular contributions or one-time investments.</p>
+      </div>
+      <div class="card" role="listitem">
+        <h3>Expense Insights</h3>
+        <p>Visual breakdowns by category to help you spot saving opportunities.</p>
+      </div>
+      <div class="card" role="listitem">
+        <h3>Receipts & Docs</h3>
+        <p>Upload receipts and statements — preview locally or hook to a backend later.</p>
+      </div>
+    </div>
+
+    <!-- Budget Tracker -->
+    <section id="budgetTracker" class="budget" aria-labelledby="budgetTitle">
+      <h2 id="budgetTitle" style="margin:8px 0 0;font-size:20px;color:var(--accent);">Budget Tracker</h2>
+
+      <form class="tx-form" id="txForm" onsubmit="return false;" aria-label="Add transaction">
+        <input id="txDesc" type="text" placeholder="Description" aria-label="Description" required />
+        <select id="txType" aria-label="Type">
+          <option value="expense">Expense</option>
+          <option value="income">Income</option>
+        </select>
+        <input id="txAmount" type="number" placeholder="Amount (₹)" min="0" step="0.01" aria-label="Amount" required />
+        <select id="txCat" aria-label="Category">
+          <option>Groceries</option>
+          <option>Health</option>
+          <option>Transport</option>
+          <option>Bills</option>
+          <option>Other</option>
+        </select>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn btn-primary" id="addTx" type="button">Add</button>
+          <button class="btn" id="clearAll" type="button" style="background:transparent;border:1px solid #eef4ff;border-radius:10px">Clear</button>
+        </div>
+      </form>
+
+      <div class="summary" role="status" aria-live="polite">
+        <div class="stat" style="text-align:center">
+          <div class="label">Total Income</div>
+          <div class="value" id="totalIncome">₹0</div>
+        </div>
+        <div class="stat" style="text-align:center">
+          <div class="label">Total Expense</div>
+          <div class="value" id="totalExpense">₹0</div>
+        </div>
+        <div class="stat" style="text-align:center">
+          <div class="label">Net Balance</div>
+          <div class="value" id="netBalance">₹0</div>
+        </div>
+      </div>
+
+      <ul id="txList" class="tx-list" aria-live="polite" aria-label="Transaction list"></ul>
+
+      <div class="chart-card">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="font-weight:700;color:var(--accent)">Expense by Category</div>
+          <div style="font-size:13px;color:var(--muted)">Hover or tap a slice for details</div>
+        </div>
+        <div class="chart-responsive" style="margin-top:12px">
+          <canvas id="expenseChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Savings & Receipts -->
+    <div class="two-col" style="align-items:start">
+      <div class="panel" aria-labelledby="savingsTitle">
+        <h4 id="savingsTitle">Savings Planner</h4>
+        <label for="sMonthly">Monthly Contribution (₹)</label>
+        <input id="sMonthly" type="number" value="5000" inputmode="numeric" />
+
+        <label for="sReturn">Expected Annual Return (%)</label>
+        <input id="sReturn" type="number" value="8" />
+
+        <label for="sYears">Years</label>
+        <input id="sYears" type="number" value="10" />
+
+        <div style="display:flex;gap:10px;margin-top:12px;align-items:center">
+          <button class="btn btn-primary" id="calcSavings">Calculate</button>
+          <div style="font-size:13px;color:var(--muted)">Assumes monthly compounding and start-of-month contributions.</div>
+        </div>
+
+        <div style="margin-top:12px">
+          <div style="font-weight:700">Total Invested: <span id="totalInvested">₹0</span></div>
+          <div style="font-weight:700;margin-top:6px">Projected Corpus: <span id="projCorpus">₹0</span></div>
+        </div>
+      </div>
+
+      <div class="panel" aria-labelledby="receiptsTitle">
+        <h4 id="receiptsTitle">Receipts & Documents</h4>
+        <div class="upload-area">
+          <label class="upload-btn" for="fileInp" role="button" tabindex="0">Choose files</label>
+          <input id="fileInp" type="file" accept="image/*,application/pdf" multiple style="display:none" />
+          <div style="flex:1;color:var(--muted);font-size:13px">Select images or PDFs. Previews are local (client-only).</div>
+        </div>
+        <div class="preview-grid" id="filePreview" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <footer>
+      RetireEase — Financial tools to help you plan with confidence.
+    </footer>
+  </main>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    // Mobile nav handling
+    const mobileNav = document.getElementById('mobileNav');
+    document.getElementById('openNav').addEventListener('click', ()=> {
+      mobileNav.style.display = 'block';
+      mobileNav.setAttribute('aria-hidden','false');
+    });
+    document.getElementById('closeNav').addEventListener('click', ()=> {
+      mobileNav.style.display = 'none';
+      mobileNav.setAttribute('aria-hidden','true');
+    });
+    mobileNav.addEventListener('click', (e)=> { if(e.target === mobileNav) { mobileNav.style.display='none'; mobileNav.setAttribute('aria-hidden','true'); } });
+
+    // --- Budget manager (localStorage) + responsive Chart.js ---
+    const STORAGE_KEY = 'retireease_tx_v2';
+    const addTxBtn = document.getElementById('addTx');
+    const txList = document.getElementById('txList');
+    const totalIncomeEl = document.getElementById('totalIncome');
+    const totalExpenseEl = document.getElementById('totalExpense');
+    const netBalanceEl = document.getElementById('netBalance');
+    const clearAllBtn = document.getElementById('clearAll');
+    const openBudgetBtn = document.getElementById('openBudgetBtn');
+
+    const ctx = document.getElementById('expenseChart').getContext('2d');
+    let expenseChart;
+
+    // function initChart(labels=[], values=[]){
+    //   if(expenseChart) expenseChart.destroy();
+    //   expenseChart = new Chart(ctx, {
+    //     type: 'doughnut',
+    //     data: {
+    //       labels,
+    //       datasets: [{
+    //         data: values,
+    //         backgroundColor: [
+    //           '#3b82f6','#60a5fa','#7dd3fc','#34d399','#f59e0b','#f97316','#ef4444','#a78bfa'
+    //         ],
+    //         borderWidth: 0
+    //       }]
+    //     },
+    //     options: {
+    //       responsive: true,
+    //       maintainAspectRatio: false,
+    //       plugins: {
+    //         legend: { position: 'bottom', labels:{boxWidth:12, padding:12} },
+    //         tooltip: { mode: 'index', intersect: false }
+    //       }
+    //     }
+    //   });
+    // }
+    function initChart(labels=[], values=[]){
+  if(expenseChart) expenseChart.destroy();
+
+  // if no data, draw a tiny neutral dataset so Chart.js renders + show overlay text
+  const hasData = labels && labels.length > 0;
+  const data = hasData ? values : [1];
+  const dataLabels = hasData ? labels : ['No expenses'];
+
+  expenseChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: dataLabels,
+      datasets: [{
+        data: data,
+        backgroundColor: hasData
+          ? ['#3b82f6','#60a5fa','#7dd3fc','#34d399','#f59e0b','#f97316','#ef4444','#a78bfa']
+          : ['#f1f5f9'], // neutral color
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: hasData, position: 'bottom', labels:{boxWidth:12, padding:12} },
+        tooltip: { enabled: hasData }
+      }
+    }
+  });
+
+  // overlay message when no data
+  const chartCard = document.querySelector('.chart-card');
+  if(chartCard){
+    let noDataEl = chartCard.querySelector('.no-data-msg');
+    if(!hasData){
+      if(!noDataEl){
+        noDataEl = document.createElement('div');
+        noDataEl.className = 'no-data-msg';
+        noDataEl.style.cssText = 'position:absolute;left:20px;right:20px;top:60px;text-align:center;color:#94a3b8;font-weight:600';
+        noDataEl.textContent = 'No expense data yet — add an expense to see category breakdown.';
+        chartCard.appendChild(noDataEl);
+      }
+    } else {
+      if(noDataEl) noDataEl.remove();
+    }
+  }
+}
+
+
+    function loadTransactions(){ const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : []; }
+    function saveTransactions(arr){ localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
+
+    function renderTransactions(){
+      const txs = loadTransactions();
+      txList.innerHTML = '';
+      let income=0, expense=0;
+      const catSums = {};
+      txs.forEach((t, idx)=>{
+        const li = document.createElement('li');
+        li.className = 'tx-item';
+        li.innerHTML = `
+          <div class="tx-left">
+            <div class="tx-cat" aria-hidden="true">${escapeText(t.cat[0]||'•')}</div>
+            <div>
+              <div style="font-weight:700">${escapeText(t.desc)}</div>
+              <div class="tx-meta">${escapeText(t.cat)} • ${escapeText(t.type)}</div>
+            </div>
+          </div>
+          <div class="tx-right">
+            <div style="font-weight:700">${t.type==='income' ? '₹'+(+t.amount).toFixed(2) : '-₹'+(+t.amount).toFixed(2)}</div>
+            <button class="delete-btn" data-idx="${idx}" aria-label="Delete transaction">Delete</button>
+          </div>
+        `;
+        txList.appendChild(li);
+        if(t.type === 'income') income += +t.amount; else expense += +t.amount;
+        if(t.type === 'expense') catSums[t.cat] = (catSums[t.cat] || 0) + (+t.amount);
+      });
+
+      totalIncomeEl.textContent = '₹' + income.toFixed(2);
+      totalExpenseEl.textContent = '₹' + expense.toFixed(2);
+      netBalanceEl.textContent = '₹' + (income - expense).toFixed(2);
+
+      const labels = Object.keys(catSums);
+      const values = labels.map(l => catSums[l]);
+      initChart(labels, values);
+
+      // delete handlers
+      document.querySelectorAll('.delete-btn').forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          const idx = +e.target.dataset.idx;
+          const arr = loadTransactions();
+          arr.splice(idx,1);
+          saveTransactions(arr);
+          renderTransactions();
+        });
+      });
+    }
+
+    function escapeText(s){ return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' })[c]); }
+
+    addTxBtn.addEventListener('click', ()=>{
+      const desc = document.getElementById('txDesc').value.trim();
+      const type = document.getElementById('txType').value;
+      const amount = parseFloat(document.getElementById('txAmount').value);
+      const cat = document.getElementById('txCat').value;
+      if(!desc || !amount){ alert('Please add a description and amount.'); return; }
+      const arr = loadTransactions();
+      arr.unshift({ desc, type, amount, cat, created: Date.now() });
+      saveTransactions(arr);
+      document.getElementById('txDesc').value=''; document.getElementById('txAmount').value='';
+      renderTransactions();
+      // small feedback
+      addTxBtn.animate([{transform:'translateY(0)'},{transform:'translateY(-4px)'},{transform:'translateY(0)'}],{duration:220});
+    });
+
+    clearAllBtn.addEventListener('click', ()=>{
+      if(confirm('Clear all transactions?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        renderTransactions();
+      }
+    });
+
+    openBudgetBtn.addEventListener('click', ()=> {
+      document.getElementById('budgetTracker').scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+
+    // Savings calculator
+    document.getElementById('calcSavings').addEventListener('click', ()=>{
+      const monthly = parseFloat(document.getElementById('sMonthly').value) || 0;
+      const annualReturn = (parseFloat(document.getElementById('sReturn').value) || 0)/100;
+      const years = parseFloat(document.getElementById('sYears').value) || 0;
+      const r = annualReturn/12;
+      const n = years*12;
+      let fv = 0;
+      if(r === 0) fv = monthly * n;
+      else fv = monthly * ( (Math.pow(1+r, n) - 1) / r ) * (1 + r);
+      const invested = monthly * n;
+      document.getElementById('projCorpus').textContent = '₹' + fv.toFixed(0);
+      document.getElementById('totalInvested').textContent = '₹' + invested.toFixed(0);
+    });
+
+    // File preview
+    const fileInp = document.getElementById('fileInp');
+    const filePreview = document.getElementById('filePreview');
+    document.querySelector('.upload-btn').addEventListener('keydown', (e)=> { if(e.key==='Enter' || e.key===' ') { fileInp.click(); }});
+    document.querySelector('.upload-btn').addEventListener('click', ()=> fileInp.click());
+    fileInp.addEventListener('change', (e)=>{
+      filePreview.innerHTML = '';
+      [...e.target.files].forEach(file=>{
+        const wrap = document.createElement('div');
+        wrap.style.width='110px'; wrap.style.textAlign='center';
+        if(file.type.startsWith('image/')){
+          const img = document.createElement('img');
+          img.style.width='110px'; img.style.height='72px'; img.style.objectFit='cover'; img.style.borderRadius='8px';
+          img.src = URL.createObjectURL(file);
+          wrap.appendChild(img);
+        } else {
+          const box = document.createElement('div');
+          box.style.width='110px'; box.style.height='72px'; box.style.display='flex'; box.style.alignItems='center';
+          box.style.justifyContent='center'; box.style.border='1px solid #eef2ff'; box.style.borderRadius='8px'; box.style.padding='8px';
+          box.textContent = file.name.split('.').slice(0,2).join('.');
+          wrap.appendChild(box);
+        }
+        filePreview.appendChild(wrap);
+      });
+    });
+
+    // ensure chart resizes properly on container changes (good for mobile)
+    window.addEventListener('resize', ()=> {
+      if(expenseChart) expenseChart.resize();
+    });
+
+    // init
+    renderTransactions();
+    initChart([], []);
+  </script>
+</body>
+</html>

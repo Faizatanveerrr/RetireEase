@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RetireEase — Community</title>
+  <style>
+    :root{
+      --site-max: 1180px;
+      --left-max: 820px;
+      --sidebar-w: 320px;
+      --accent: #354c9a;
+      --accent-2: #2e3fa3;
+      --muted: #6b6b6b;
+      --muted-2: #9aa0a6;
+      --bg: #f6f7fb;
+      --card-bg: #fff;
+      --glass: rgba(255,255,255,0.6);
+      --radius: 12px;
+      --soft-shadow: 0 8px 20px rgba(30,30,60,0.06);
+    }
+    /* reset-ish */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      background:linear-gradient(180deg,#f6f7fb 0%, #ffffff 100%);
+      color:#222;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* header */
+    .site-header{
+      background:#fff;
+      border-bottom:1px solid rgba(20,20,40,0.03);
+      position:sticky; top:0; z-index:60;
+      backdrop-filter: blur(4px);
+    }
+    .header-inner{
+      max-width:var(--site-max);
+      margin:0 auto;
+      padding:14px 20px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{width:44px;height:44px;border-radius:8px;object-fit:cover}
+    .site-title{font-weight:700;color:var(--accent);font-size:18px}
+    .main-nav{display:flex;align-items:center;gap:18px}
+    .main-nav a{color:#222;text-decoration:none;padding:6px 8px;border-radius:8px;font-weight:500}
+    .btn-login{border:1px solid var(--accent); padding:6px 12px;border-radius:20px}
+    .btn-signup{background:var(--accent); color:#fff; padding:8px 14px;border-radius:22px;box-shadow: 0 4px 12px rgba(53,76,154,0.12)}
+
+    /* hero */
+    .hero{
+      min-height: 500px;
+      display:flex; align-items:center;
+      position:relative;
+
+  background: url('people.png') top center/cover no-repeat;
+}
+
+ 
+
+    .hero::after{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(20,20,40,0.45), rgba(20,20,40,0.55));
+    }
+    .hero-inner{
+      max-width:var(--site-max);
+      margin:0 auto;
+      width:100%;
+      padding:52px 20px;
+      position:relative; z-index:2;
+      display:flex; align-items:center; justify-content:center;
+      text-align:center; flex-direction:column;
+    }
+    .hero h1{color:#fff; font-size:36px; margin:0 0 10px; letter-spacing:0.2px}
+    .hero p{color:rgba(255,255,255,0.95); margin:0 0 20px; font-weight:500}
+    .hero-cta{display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
+    .btn-ghost{
+      background:transparent; color:#fff; border:2px solid rgba(255,255,255,0.85);
+      padding:10px 18px; border-radius:28px; cursor:pointer; font-weight:600;
+    }
+    .btn-primary{
+      background: linear-gradient(180deg,var(--accent), var(--accent-2));
+      color:#fff; padding:10px 18px; border-radius:28px; border:0; cursor:pointer; font-weight:600;
+      box-shadow: 0 10px 30px rgba(46,63,163,0.12);
+    }
+
+    /* main layout */
+    .page-main{
+      max-width:var(--site-max);
+      margin: 28px auto;
+      padding: 0 20px 60px;
+      display:grid;
+      grid-template-columns: 1fr var(--sidebar-w);
+      gap:28px;
+      align-items:start;
+    }
+
+    /* left column container (centers content under hero) */
+    .left-col{
+      max-width: var(--left-max);
+      margin: 0 auto;
+      width:100%;
+      padding: 0 12px;
+    }
+
+    /* controls */
+    .controls{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+      flex-wrap:wrap;
+    }
+    .search input{
+      width:420px; max-width:100%;
+      padding:12px 14px; border-radius:10px; border:1px solid #e6e9ee;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(30,30,60,0.03);
+    }
+    .filter-row{display:flex; gap:10px; align-items:center}
+
+    select, button.small{
+      padding:8px 10px; border-radius:8px; border:1px solid #e1e4ea;
+      background:#fff; cursor:pointer;
+    }
+
+    /* groups grid */
+    .groups-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap:18px;
+    }
+    .card{
+      background:var(--card-bg);
+      border-radius: var(--radius);
+      padding:16px;
+      box-shadow: var(--soft-shadow);
+      border: 1px solid rgba(20,20,40,0.04);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .card:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(30,30,60,0.08) }
+
+    .group-card{text-align:center; padding:20px}
+    .group-card h3{margin:0 0 8px; font-size:18px}
+    .group-card p{color:var(--muted); font-size:14px; line-height:1.45}
+    .meta{color:var(--muted-2); margin-top:12px; font-size:13px}
+    .card-actions{margin-top:12px; display:flex; gap:8px; justify-content:center}
+    .card-actions button{padding:8px 12px;border-radius:10px;border:1px solid rgba(20,20,40,0.06);background:#fff;cursor:pointer}
+
+    /* discussions */
+    .discussions-card{
+      margin-top:20px;
+      padding:20px;
+      border-radius:12px;
+    }
+    .discussions-card h3{margin:0 0 12px}
+    .posts-list{display:flex; flex-direction:column; gap:12px}
+    .post{
+      padding:14px;
+      border-radius:10px;
+      background:linear-gradient(180deg,#fff,#fbfcff);
+      border:1px solid rgba(20,20,40,0.04);
+      transition: box-shadow .12s ease;
+    }
+    .post:hover{ box-shadow: 0 10px 30px rgba(30,30,60,0.04) }
+    .post-meta{color:var(--muted-2); font-size:13px; margin-bottom:6px}
+    .post-actions{margin-top:8px; display:flex; gap:10px; align-items:center}
+    .like-btn{background:#fff;border:1px solid rgba(46,63,163,0.08);padding:8px 10px;border-radius:10px;cursor:pointer}
+
+    /* sidebar */
+    .sidebar .card{padding:16px; margin-bottom:16px}
+    .events-list li{margin-bottom:10px;color:var(--muted)}
+    .contributors-list li{margin-bottom:8px;color:#222}
+
+    /* empty states */
+    .empty-note{padding:18px;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfcff); text-align:center; color:var(--muted-2); border:1px dashed rgba(150,150,160,0.08)}
+
+    /* modal */
+    .modal{position:fixed; inset:0; background:rgba(6,10,20,0.45); display:flex; align-items:center; justify-content:center; padding:16px; z-index:90}
+    .modal.hidden{display:none}
+    .modal-card{width:100%; max-width:720px; background: #fff; border-radius:12px; padding:20px; box-shadow: 0 18px 60px rgba(20,20,60,0.12)}
+    .modal input, .modal textarea{width:100%; padding:12px;border-radius:10px;border:1px solid #e6e9ee;margin-top:10px}
+
+    /* tiny helpers */
+    .muted{color:var(--muted)}
+    .right{text-align:right}
+
+    @media (max-width: 1100px){
+      .page-main{grid-template-columns: 1fr 300px; padding:0 18px}
+      .left-col{max-width:700px}
+    }
+    @media (max-width: 900px){
+      .page-main{grid-template-columns: 1fr}
+      .left-col{max-width:100%; margin:0}
+      .hero h1{font-size:28px}
+      .hero-inner{padding:36px 18px}
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <a href="index.html" title="RetireEase home">
+          <img src="retireeaselogo.png" alt="RetireEase logo">
+        </a>
+        <div class="site-title">RetireEase</div>
+      </div>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="health.html">Health</a>
+        <a href="finance.html">Finance</a>
+        <a href="community.html" aria-current="page">Community</a>
+        <a class="btn-login" href="#">Login</a>
+        <a class="btn-signup" href="#">Sign Up</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" role="banner" aria-label="Community hero">
+    <div class="hero-inner">
+      <h1>Connect, share, and thrive together</h1>
+      <p>Start by creating a group or discussion — nothing is prefilled.</p>
+      <div class="hero-cta">
+        <button id="openCreateGroup" class="btn-primary">Create a Group</button>
+        <button id="newPostBtn" class="btn-ghost">Start a Discussion</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="page-main" role="main">
+    <!-- left column -->
+    <div class="left-col">
+      <div class="controls">
+        <div class="search">
+          <input id="searchInput" placeholder="Search topics, groups or members..." aria-label="Search community">
+        </div>
+        <div class="filter-row">
+          <select id="sortSelect" aria-label="Sort posts">
+            <option value="recent">Most recent</option>
+            <option value="popular">Most popular</option>
+          </select>
+          <button id="filterBtn" class="small">My Groups</button>
+        </div>
+      </div>
+
+      <!-- groups -->
+      <section aria-label="Groups">
+        <div id="groups" class="groups-grid" aria-live="polite">
+          <!-- empty by default; JS will inject -->
+        </div>
+      </section>
+
+      <!-- discussions -->
+      <section aria-label="Discussions" class="discussions-card" >
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <h3 style="margin:0">Discussions</h3>
+            <div class="right"><button id="openNewPost" class="small">New Post</button></div>
+          </div>
+
+          <div id="postsList" class="posts-list" style="margin-top:14px">
+            <!-- starts empty -->
+          </div>
+
+          <div style="display:flex;justify-content:center;margin-top:14px">
+            <button id="loadMorePosts" class="small">Load more</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- sidebar -->
+    <aside class="sidebar" aria-label="Sidebar">
+      <div class="card">
+        <h4 style="margin:0 0 10px 0">Upcoming events</h4>
+        <div id="eventsArea" class="empty-note">No events yet. Add event info in posts or via admin later.</div>
+        <ul id="eventsList" class="events-list" style="margin-top:8px; padding-left:18px; display:none"></ul>
+      </div>
+
+      <div class="card">
+        <h4 style="margin:0 0 10px 0">Top contributors</h4>
+        <div id="contributorsArea" class="empty-note">No contributors yet — contributors appear when someone's post becomes the top-liked post.</div>
+        <ol id="contributorsList" class="contributors-list" style="margin-top:8px; padding-left:18px; display:none"></ol>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Create Group Modal -->
+  <div id="createGroupModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button id="closeCreateGroup" class="modal-close" aria-label="Close" style="float:right;border:none;background:none;font-size:22px;cursor:pointer">&times;</button>
+      <h3 style="margin-top:0">Create a Group</h3>
+      <input id="groupTitle" placeholder="Group name">
+      <textarea id="groupDesc" rows="3" placeholder="Short description"></textarea>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px">
+        <button id="submitGroup" class="btn-primary">Create</button>
+        <button id="cancelGroup" class="small">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Post Modal -->
+  <div id="newPostModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button id="closeModal" class="modal-close" aria-label="Close" style="float:right;border:none;background:none;font-size:22px;cursor:pointer">&times;</button>
+      <h3 style="margin-top:0">Create a discussion</h3>
+      <input id="postTitle" placeholder="Title" aria-label="Post title" />
+      <input id="postAuthor" placeholder="Author name (optional)" aria-label="Author name" />
+      <textarea id="postBody" rows="5" placeholder="Write your post..." aria-label="Post content"></textarea>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px">
+        <button id="submitPost" class="btn-primary">Post</button>
+        <button id="cancelPost" class="small">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <footer style="padding:28px 0;text-align:center;color:var(--muted)">
+    © RetireEase — Connect & thrive
+  </footer>
+
+  <script>
+  (function(){
+    // Config
+    const HERO_IMAGE = 'people.png';
+    const POSTS_PAGE_SIZE = 5;
+
+    // Elements
+    const groupsEl = document.getElementById('groups');
+    const postsListEl = document.getElementById('postsList');
+    const eventsListEl = document.getElementById('eventsList');
+    const eventsArea = document.getElementById('eventsArea');
+    const contributorsListEl = document.getElementById('contributorsList');
+    const contributorsArea = document.getElementById('contributorsArea');
+
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+    const filterBtn = document.getElementById('filterBtn');
+
+    const openCreateGroup = document.getElementById('openCreateGroup');
+    const createGroupModal = document.getElementById('createGroupModal');
+    const closeCreateGroup = document.getElementById('closeCreateGroup');
+    const cancelGroup = document.getElementById('cancelGroup');
+    const submitGroup = document.getElementById('submitGroup');
+    const groupTitle = document.getElementById('groupTitle');
+    const groupDesc = document.getElementById('groupDesc');
+
+    const newPostBtn = document.getElementById('newPostBtn');
+    const openNewPost = document.getElementById('openNewPost');
+    const newPostModal = document.getElementById('newPostModal');
+    const closeModal = document.getElementById('closeModal');
+    const cancelPost = document.getElementById('cancelPost');
+    const submitPost = document.getElementById('submitPost');
+    const postTitle = document.getElementById('postTitle');
+    const postBody = document.getElementById('postBody');
+    const postAuthor = document.getElementById('postAuthor');
+    const loadMoreBtn = document.getElementById('loadMorePosts');
+
+    // LocalStorage keys
+    const LS_GROUPS = 're_groups_v3';
+    const LS_POSTS = 're_posts_v3';
+    const LS_JOINED = 're_joined_v3';
+    const LS_CONTRIBUTORS = 're_contrib_v3';
+    const LS_LIKES = 're_likes_v3';
+
+    // State
+    let postsOffset = 0;
+    let myGroupsOnly = false;
+
+    function uid(prefix='id'){ return prefix + '_' + Math.random().toString(36).slice(2,9); }
+    function loadLS(k){ try{ return JSON.parse(localStorage.getItem(k) || '[]'); }catch(e){return []}}
+    function saveLS(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+    function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function fmtTime(ts){
+      const d = new Date(ts); const diff = Date.now() - ts;
+      if(diff < 60000) return Math.round(diff/1000)+'s ago';
+      if(diff < 3600000) return Math.round(diff/60000)+'m ago';
+      if(diff < 86400000) return Math.round(diff/3600000)+'h ago';
+      return Math.round(diff/86400000)+'d ago';
+    }
+
+    // Renderers
+    function renderGroups(){
+      const q = (searchInput.value||'').toLowerCase().trim();
+      const groups = loadLS(LS_GROUPS);
+      groupsEl.innerHTML = '';
+      if(!groups.length){
+        groupsEl.innerHTML = '<div class="card empty-note">No groups yet — create one using "Create a Group".</div>';
+        return;
+      }
+      const joined = loadLS(LS_JOINED);
+      groups.forEach(g=>{
+        if(q && !g.title.toLowerCase().includes(q) && !(g.desc||'').toLowerCase().includes(q)) return;
+        const a = document.createElement('article');
+        a.className = 'card group-card';
+        a.dataset.id = g.id;
+        a.innerHTML = `<h3>${escapeHtml(g.title)}</h3><p>${escapeHtml(g.desc||'')}</p><div class="meta">${g.members||0} members</div><div class="card-actions"><button class="join">${joined.includes(g.id)?'Joined':'Join'}</button><button class="view">View</button></div>`;
+        a.style.opacity = (myGroupsOnly && !joined.includes(g.id)) ? '0.45' : '1';
+        groupsEl.appendChild(a);
+      });
+    }
+
+    function renderPosts(reset=false){
+      if(reset){ postsOffset = 0; postsListEl.innerHTML = ''; }
+      const all = loadLS(LS_POSTS).slice().sort((a,b)=> b.time - a.time);
+      if(!all.length){
+        postsListEl.innerHTML = '<div class="empty-note">No discussions yet — start the first discussion!</div>';
+        loadMoreBtn.style.display = 'none';
+        return;
+      }
+      if(sortSelect.value === 'popular'){
+        all.sort((a,b)=> (b.likes||0) - (a.likes||0));
+      }
+      const slice = all.slice(postsOffset, postsOffset + POSTS_PAGE_SIZE);
+      slice.forEach(p=>{
+        const liked = loadLS(LS_LIKES) || [];
+        const isLiked = liked.includes(p.id);
+        const el = document.createElement('article');
+        el.className = 'post';
+        el.dataset.id = p.id;
+        el.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+            <div style="flex:1">
+              <h4 style="margin:0 0 6px">${escapeHtml(p.title)}</h4>
+              <div class="post-meta">by ${escapeHtml(p.author||'Anonymous')} • ${fmtTime(p.time)}</div>
+              <div style="margin-top:8px;color:var(--muted)">${escapeHtml(p.content)}</div>
+            </div>
+            <div style="margin-left:12px;display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+              <button class="like-btn like">${isLiked ? 'Liked' : 'Like'} (${p.likes||0})</button>
+            </div>
+          </div>
+        `;
+        postsListEl.appendChild(el);
+      });
+      postsOffset += slice.length;
+      loadMoreBtn.style.display = (postsOffset < all.length) ? '' : 'none';
+    }
+
+    function renderEvents(){
+      const events = loadLS('re_events_v3') || [];
+      if(!events.length){ eventsListEl.style.display='none'; eventsArea.style.display=''; return; }
+      eventsListEl.innerHTML = '';
+      events.forEach(e=>{
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${escapeHtml(e.title)}</strong> — ${escapeHtml(e.when)}`;
+        eventsListEl.appendChild(li);
+      });
+      eventsListEl.style.display=''; eventsArea.style.display='none';
+    }
+
+    function renderContributors(){
+      const list = loadLS(LS_CONTRIBUTORS) || [];
+      if(!list.length){ contributorsListEl.style.display='none'; contributorsArea.style.display=''; return; }
+      contributorsListEl.innerHTML = '';
+      list.forEach(c=>{
+        const li = document.createElement('li');
+        li.textContent = c;
+        contributorsListEl.appendChild(li);
+      });
+      contributorsListEl.style.display=''; contributorsArea.style.display='none';
+    }
+
+    // business logic: contributor only when strictly top-liked
+    function checkTopContributorForPost(postId){
+      const posts = loadLS(LS_POSTS) || [];
+      const target = posts.find(p=> p.id === postId);
+      if(!target) return;
+      const othersMax = posts.filter(p=> p.id !== postId).reduce((m,p)=> Math.max(m, p.likes||0), -1);
+      if((target.likes||0) > othersMax){
+        const contributors = loadLS(LS_CONTRIBUTORS) || [];
+        if(!contributors.includes(target.author)){
+          contributors.unshift(target.author || 'Anonymous');
+          saveLS(LS_CONTRIBUTORS, contributors.slice(0,10));
+          renderContributors();
+        }
+      }
+    }
+
+    // interactions
+    function wire(){
+      openCreateGroup.addEventListener('click', ()=> createGroupModal.classList.remove('hidden'));
+      closeCreateGroup.addEventListener('click', ()=> createGroupModal.classList.add('hidden'));
+      cancelGroup.addEventListener('click', ()=> createGroupModal.classList.add('hidden'));
+      submitGroup.addEventListener('click', function(){
+        const title = (groupTitle.value||'').trim();
+        const desc = (groupDesc.value||'').trim();
+        if(!title){ alert('Add a group name'); return; }
+        const groups = loadLS(LS_GROUPS);
+        groups.unshift({ id: uid('g'), title, desc, members: 1 });
+        saveLS(LS_GROUPS, groups);
+        groupTitle.value=''; groupDesc.value='';
+        createGroupModal.classList.add('hidden');
+        renderGroups();
+      });
+
+      [newPostBtn, openNewPost].forEach(el=> el && el.addEventListener('click', ()=> newPostModal.classList.remove('hidden')));
+      [closeModal, cancelPost].forEach(el=> el && el.addEventListener('click', ()=> newPostModal.classList.add('hidden')));
+      submitPost.addEventListener('click', function(){
+        const title = (postTitle.value||'').trim();
+        const body = (postBody.value||'').trim();
+        let author = (postAuthor.value||'').trim();
+        if(!title || !body){ alert('Add title and content'); return; }
+        if(!author) author = 'You';
+        const posts = loadLS(LS_POSTS);
+        posts.unshift({ id: uid('p'), title, content: body, author, time: Date.now(), likes: 0 });
+        saveLS(LS_POSTS, posts);
+        postTitle.value=''; postBody.value=''; postAuthor.value='';
+        newPostModal.classList.add('hidden');
+        renderPosts(true);
+      });
+
+      searchInput.addEventListener('input', ()=> { renderGroups(); renderPosts(true); });
+      sortSelect.addEventListener('change', ()=> renderPosts(true));
+      filterBtn.addEventListener('click', function(){
+        myGroupsOnly = !myGroupsOnly;
+        filterBtn.textContent = myGroupsOnly ? 'All Groups' : 'My Groups';
+        renderGroups();
+      });
+
+      document.addEventListener('click', function(e){
+        if(e.target.matches('.join')){
+          const card = e.target.closest('.group-card'); if(!card) return;
+          const id = card.dataset.id;
+          let joined = loadLS(LS_JOINED);
+          if(joined.includes(id)){
+            joined = joined.filter(x=> x !== id); e.target.textContent = 'Join';
+            let groups = loadLS(LS_GROUPS);
+            groups = groups.map(g=> g.id===id ? {...g, members: Math.max(0,(g.members||1)-1)} : g);
+            saveLS(LS_GROUPS, groups);
+          } else {
+            joined.unshift(id); e.target.textContent = 'Joined';
+            let groups = loadLS(LS_GROUPS);
+            groups = groups.map(g=> g.id===id ? {...g, members: (g.members||0)+1} : g);
+            saveLS(LS_GROUPS, groups);
+          }
+          saveLS(LS_JOINED, joined);
+          renderGroups();
+        }
+
+        if(e.target.matches('.view')){
+          const card = e.target.closest('.group-card'); if(!card) return;
+          alert('Open group: ' + (card.querySelector('h3')?.textContent || 'Group') + ' (demo)');
+        }
+
+        if(e.target.matches('.like')){
+          const postEl = e.target.closest('.post'); if(!postEl) return;
+          const id = postEl.dataset.id;
+          const liked = loadLS(LS_LIKES);
+          const posts = loadLS(LS_POSTS);
+          const idx = liked.indexOf(id);
+          let postsUpdated = posts.map(p => {
+            if(p.id === id){
+              if(idx === -1){ p.likes = (p.likes||0) + 1; liked.push(id); }
+              else { p.likes = Math.max(0, (p.likes||0) - 1); liked.splice(idx,1); }
+            }
+            return p;
+          });
+          saveLS(LS_POSTS, postsUpdated);
+          saveLS(LS_LIKES, liked);
+          checkTopContributorForPost(id);
+          renderPosts(true);
+        }
+
+        if(e.target.matches('.reply')){
+          const post = e.target.closest('.post'); if(!post) return;
+          const title = post.querySelector('h4')?.textContent || '';
+          const reply = prompt('Reply to "' + title + '"');
+          if(reply) alert('Reply posted (demo): ' + reply);
+        }
+      });
+
+      loadMoreBtn.addEventListener('click', ()=> renderPosts(false));
+      document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ createGroupModal.classList.add('hidden'); newPostModal.classList.add('hidden'); }});
+    }
+
+    // init
+    function init(){
+      // ensure keys
+      [LS_GROUPS, LS_POSTS, LS_JOINED, LS_CONTRIBUTORS, LS_LIKES, 're_events_v3'].forEach(k=> { if(localStorage.getItem(k) === null) saveLS(k, []); });
+
+      // render initial empty states
+      renderGroups();
+      renderPosts(true);
+      renderEvents();
+      renderContributors();
+      wire();
+
+      // safety: set hero background (in case image path needs override)
+      const hero = document.querySelector('.hero');
+      if(hero){ hero.style.backgroundImage = `url('${HERO_IMAGE}')`; }
+    }
+
+    init();
+  })();
+  </script>
+</body>
+</html>

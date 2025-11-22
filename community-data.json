@@ -1,0 +1,17 @@
+{
+  "hero": {
+    "image": "/mnt/data/4413b2f8-e650-44ef-b170-6a2f6330f9f3.png",
+    "title": "Connect, share, and thrive together",
+    "subtitle": "Join interest groups, start conversations, attend events, and find peers who share your passions."
+  },
+  "groups": [
+    {"id":"g1","title":"Walking Club","desc":"Daily morning walks and social meetups.","members":34},
+    {"id":"g2","title":"Gardening Circle","desc":"Tips for small-space gardening, seed swaps, and photos.","members":21},
+    {"id":"g3","title":"Book Club","desc":"Monthly book pick + discussion and author spotlights.","members":48}
+  ],
+  "posts": [
+    {"id":"p1","title":"Best tea recipes","author":"Asha","time":1699999999999,"content":"I tried a new ginger-honey blend — anyone got other cozy recipes?","likes":3}
+  ],
+  "events":[{"id":"e1","title":"Tea & Talk","when":"Sat 10 AM"}],
+  "contributors":["Joan K.","Ravi P.","Kamal S."]
+}

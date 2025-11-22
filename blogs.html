@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Create & Share — RetireEase Stories</title>
+  <style>
+    :root{--accent:#3346A4;--muted:#6b6b6b;--card:#fff;--bg:#f5f7fb}
+    *{box-sizing:border-box}
+    body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; background:var(--bg); color:#111}
+    header{background:#fff; border-bottom:1px solid #e6e9ef; padding:14px 28px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:10}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{height:40px;border-radius:6px}
+    nav a{margin-left:18px;color:#333;text-decoration:none;font-weight:600}
+
+    .container{max-width:900px;margin:28px auto;padding:0 18px}
+
+    /* Composer */
+    .composer{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(40,44,63,0.06);margin-bottom:20px}
+    .composer-top{display:flex;gap:12px;align-items:center}
+    .avatar-sm{width:44px;height:44px;border-radius:50%;overflow:hidden}
+    .avatar-sm img{width:100%;height:100%;object-fit:cover}
+    .composer textarea{flex:1;border:1px solid #e6e9ef;border-radius:10px;padding:12px;resize:vertical;min-height:64px;font-size:15px}
+    .composer .controls{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+    .btn{background:var(--accent);color:#fff;padding:9px 14px;border-radius:999px;border:none;cursor:pointer;font-weight:700}
+    .btn.secondary{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+    .file-label{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:1px dashed #e6e9ef;cursor:pointer}
+
+    .preview{margin-top:12px;display:flex;gap:12px;align-items:center}
+    .preview img,.preview video{max-height:220px;border-radius:10px;object-fit:cover}
+
+    /* Feed - instagram-like large posts */
+    .feed{display:flex;flex-direction:column;gap:28px;align-items:center}
+    .post{max-width:500px;width:100%;background:var(--card);border-radius:14px;overflow:hidden;border:1px solid #eef2f8;box-shadow:0 8px 30px rgba(20,30,60,0.04)}
+    .post .post-top{display:flex;align-items:center;gap:12px;padding:12px}
+    .post .post-top .avatar{width:44px;height:44px;border-radius:50%;overflow:hidden;flex:0 0 44px}
+    .post .post-top .avatar img{width:100%;height:100%;object-fit:cover}
+    .post .post-top .user{font-weight:700}
+
+    /* media area: maintain a pleasing instagram-like portrait ratio (4:5) so images appear properly */
+    .post-media{position:relative;background:#000;display:block;overflow:hidden}
+    .media-inner{position:relative;width:100%;padding-top:60%; /* 4:5 aspect ratio */}
+    .media-inner img,.media-inner video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+
+    /* subtle bottom gradient so caption is readable when overlaying */
+    .media-overlay{position:absolute;left:0;right:0;bottom:0;height:40%;background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.55) 100%);pointer-events:none}
+
+    .post-body{padding:12px}
+    .post-actions{display:flex;align-items:center;gap:12px}
+    .icon-like{font-size:22px;cursor:pointer;border:none;background:none;transition:transform .12s}
+    .icon-like:active{transform:scale(0.95)}
+    .like-count{font-weight:700}
+    .caption{margin-top:8px;color:#222;line-height:1.45}
+    .time{color:var(--muted);font-size:13px;margin-top:8px}
+
+    /* heart animation centered */
+    .heart-overlay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(0);pointer-events:none;font-size:120px;opacity:0;transition:transform .35s ease,opacity .35s}
+    .heart-overlay.show{transform:translate(-50%,-50%) scale(1);opacity:0.95}
+
+    /* polish */
+    .post .post-top .user {font-size:15px}
+    .post .post-top .time {color:var(--muted);font-size:13px}
+
+    @media (max-width:720px){.container{padding:0 12px}.media-inner{padding-top:140%}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="retireeaselogo.png" alt="logo" />
+      <div style="font-weight:800;color:var(--accent);font-size:18px">RetireEase — Stories</div>
+    </div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/health.html">Health</a>
+      <a href="/finance.html">Finance</a>
+      <a href="/community.html">Community</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="composer" aria-labelledby="create-post">
+      <div class="composer-top">
+        <div class="avatar-sm"><img src="" alt="you"/></div>
+        <textarea id="caption" placeholder="Share something meaningful... (text + optional image/video)"></textarea>
+      </div>
+      <div class="controls" style="margin-top:10px">
+        <div style="display:flex;gap:10px;align-items:center">
+          <label class="file-label" for="mediaInput">+ Add Image/Video</label>
+          <input id="mediaInput" type="file" accept="image/*,video/*" style="display:none" />
+          <button id="clearDraft" class="btn secondary">Clear</button>
+        </div>
+        <div>
+          <button id="publish" class="btn">Post</button>
+        </div>
+      </div>
+      <div class="preview" id="previewArea" style="display:none">
+        <img id="previewImg" src="" alt="preview" style="display:none;border-radius:8px;max-width:220px;object-fit:cover" />
+        <video id="previewVideo" controls style="display:none;max-height:220px;border-radius:8px;object-fit:cover"></video>
+        <div style="flex:1;color:var(--muted)">Preview — ready to post. Click Clear to remove.</div>
+      </div>
+    </section>
+
+    <section style="margin-bottom:8px">
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+        <input id="search" placeholder="Search captions or users" style="flex:1;padding:10px;border-radius:10px;border:1px solid #e6e9ef" />
+        <button id="refresh" class="btn secondary">Refresh</button>
+      </div>
+    </section>
+
+    <section class="feed" id="feed"></section>
+
+  </main>
+
+  <template id="post-template">
+    <article class="post">
+      <div class="post-top">
+        <div class="avatar"><img src="" alt="avatar"/></div>
+        <div style="flex:1">
+          <div class="user"></div>
+          <div class="time"></div>
+        </div>
+        <div style="color:var(--muted);font-size:13px">•••</div>
+      </div>
+
+      <div class="post-media">
+        <div class="media-inner"></div>
+        <div class="media-overlay"></div>
+      </div>
+
+      <div class="post-body">
+        <div class="post-actions">
+          <button class="icon-like" aria-label="like">🤍</button>
+          <div class="like-count">0</div>
+        </div>
+        <div class="caption"></div>
+        <div class="time small"></div>
+      </div>
+    </article>
+  </template>
+
+  <script>
+    const feedEl = document.getElementById('feed');
+    const publishBtn = document.getElementById('publish');
+    const captionEl = document.getElementById('caption');
+    const mediaInput = document.getElementById('mediaInput');
+    const previewArea = document.getElementById('previewArea');
+    const previewImg = document.getElementById('previewImg');
+    const previewVideo = document.getElementById('previewVideo');
+    const clearDraft = document.getElementById('clearDraft');
+    const searchInput = document.getElementById('search');
+    const refreshBtn = document.getElementById('refresh');
+    const template = document.getElementById('post-template');
+
+    function uid(){return 'p_'+Math.random().toString(36).slice(2,9)}
+
+    let posts = JSON.parse(localStorage.getItem('re_posts')||'null');
+    if(!posts){
+      posts = [{
+        id:uid(),user:'RetireEase',avatar:'/mnt/data/6a305036-3ac7-4a48-bb06-18cd0c6e4435.png',
+        caption:'Welcome to Stories — share moments, memories, and tiny victories. Tap ❤️ to like.',
+        media:'/mnt/data/6a305036-3ac7-4a48-bb06-18cd0c6e4435.png',mimetype:'image',
+        likes:124,liked:false,ts:Date.now()-1000*60*60*6
+      }]
+      localStorage.setItem('re_posts',JSON.stringify(posts));
+    }
+
+    function save(){localStorage.setItem('re_posts',JSON.stringify(posts));}
+
+    function createPostElement(p){
+      const el = template.content.cloneNode(true);
+      const article = el.querySelector('article');
+      article.querySelector('.avatar img').src = p.avatar;
+      article.querySelector('.user').textContent = p.user;
+      article.querySelector('.time').textContent = timeAgo(p.ts);
+      article.querySelector('.caption').textContent = p.caption;
+      article.querySelector('.post-actions .like-count').textContent = p.likes;
+      const likeBtn = article.querySelector('.icon-like');
+      likeBtn.addEventListener('click', ()=>{
+        p.liked = !p.liked;
+        p.likes += p.liked ? 1 : -1;
+        likeBtn.textContent = p.liked ? '❤️' : '🤍';
+        article.querySelector('.post-actions .like-count').textContent = p.likes;
+        save();
+      });
+
+      // media
+      const mediaWrap = article.querySelector('.media-inner');
+      mediaWrap.innerHTML = '';
+      if(p.media){
+        if(p.mimetype==='video'){
+          const v = document.createElement('video'); v.src = p.media; v.controls = true; v.preload='metadata'; v.playsInline = true; v.muted = false; v.setAttribute('webkit-playsinline','true');
+          mediaWrap.appendChild(v);
+
+          // double-tap to like gesture
+          attachDoubleTap(mediaWrap, ()=>{ if(!p.liked){ likeBtn.click(); showHeart(mediaWrap) } });
+        } else {
+          const i = document.createElement('img'); i.src = p.media; i.alt='post image'; i.loading='lazy';
+          mediaWrap.appendChild(i);
+          attachDoubleTap(mediaWrap, ()=>{ if(!p.liked){ likeBtn.click(); showHeart(mediaWrap) } });
+        }
+      }
+
+      return el;
+    }
+
+    function render(filter=''){
+      feedEl.innerHTML='';
+      const list = posts.slice().reverse().filter(p=>{
+        if(!filter) return true;
+        return p.caption.toLowerCase().includes(filter) || p.user.toLowerCase().includes(filter)
+      });
+      if(list.length===0){feedEl.innerHTML='<div style="padding:40px;text-align:center;color:var(--muted)">No posts yet. Be the first to share!</div>';return}
+      list.forEach(p=>{ feedEl.appendChild(createPostElement(p)); })
+    }
+
+    function timeAgo(ts){
+      const sec = Math.floor((Date.now()-ts)/1000);
+      if(sec<60) return sec+'s';
+      if(sec<3600) return Math.floor(sec/60)+'m';
+      if(sec<86400) return Math.floor(sec/3600)+'h';
+      return Math.floor(sec/86400)+'d';
+    }
+
+    function readFileAsDataURL(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file)})}
+
+    mediaInput.addEventListener('change', async ()=>{
+      if(!mediaInput.files.length){previewArea.style.display='none';return}
+      const f = mediaInput.files[0];
+      const url = URL.createObjectURL(f);
+      if(f.type.startsWith('video')){
+        previewImg.style.display='none'; previewVideo.style.display='block'; previewVideo.src = url;
+      } else {
+        previewVideo.style.display='none'; previewImg.style.display='block'; previewImg.src = url;
+      }
+      previewArea.style.display='flex';
+    })
+
+    publishBtn.addEventListener('click', async ()=>{
+      const text = captionEl.value.trim();
+      if(!text && !mediaInput.files.length){alert('Please add text or media to post.'); return}
+      let mediaData = null; let mimetype = null;
+      if(mediaInput.files.length){
+        const f = mediaInput.files[0];
+        mediaData = await readFileAsDataURL(f); mimetype = f.type.startsWith('video') ? 'video' : 'image';
+      }
+      const newPost = {id:uid(), user: localStorage.getItem('re_user')||'You', avatar:'', caption:text, media:mediaData, mimetype:mimetype, likes:0, liked:false, ts:Date.now()}
+      posts.push(newPost); save(); render();
+      captionEl.value=''; mediaInput.value=''; previewArea.style.display='none';
+    })
+
+    clearDraft.addEventListener('click', ()=>{captionEl.value='';mediaInput.value='';previewArea.style.display='none'})
+    searchInput.addEventListener('input', ()=>{render(searchInput.value.trim().toLowerCase())})
+    refreshBtn.addEventListener('click', ()=>{posts = JSON.parse(localStorage.getItem('re_posts')||'[]'); render();})
+
+    // double-tap helper
+    function attachDoubleTap(el, cb){
+      let last=0;
+      el.addEventListener('pointerup',(e)=>{
+        const now = Date.now();
+        if(now-last<350){ cb(); }
+        last = now;
+      })
+    }
+
+    // show heart animation
+    function showHeart(container){
+      const heart = document.createElement('div'); heart.className='heart-overlay'; heart.textContent='❤️';
+      heart.style.position='absolute'; heart.style.pointerEvents='none'; container.style.position='relative';
+      container.appendChild(heart);
+      requestAnimationFrame(()=>heart.classList.add('show'));
+      setTimeout(()=>{ heart.classList.remove('show'); setTimeout(()=>heart.remove(),400) },600);
+    }
+
+    render();
+
+  </script>
+</body>
+</html>

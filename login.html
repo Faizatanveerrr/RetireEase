@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetireEase</title>
+    <style>
+        /* General reset and basic styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Body styling with background image */
+        body {
+            background: url('retire1.jpg') no-repeat center center fixed; 
+            background-size: cover; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+
+        /* Login container */
+        .login-container {
+            background: rgba(255, 255, 255, 0.8); 
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .login-container:hover {
+            transform: scale(1.05); 
+        }
+
+        /* Title styling */
+        h1 {
+            color: #2F80ED;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        /* Input group styling */
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: #2F80ED;
+            background-color: #e9f6fd;
+            outline: none;
+        }
+
+        /* Button styling */
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2F80ED;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #56CCF2;
+        }
+
+        /* Error message styling */
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+            font-weight: bold;
+        }
+
+        /* Responsive Design for smaller screens */
+        @media (max-width: 600px) {
+            .login-container {
+                padding: 20px;
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            h2 {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Welcome to RetireEase</h1>
+        <form id="loginForm" onsubmit="return validateForm()">
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="input-group">
+                <button type="submit">Login</button>
+            </div>
+            <div class="error-message" id="error-message"></div>
+        </form>
+    </div>
+
+    <script>
+        // Form validation function
+        function validateForm() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+            
+            // Clear previous error message
+            errorMessage.style.display = 'none';
+
+            // Check if fields are empty
+            if (username === '' || password === '') {
+                errorMessage.textContent = 'Please fill in both fields.';
+                errorMessage.style.display = 'block';
+                return false; // Prevent form submission
+            }
+            
+            return true; // Allow form submission
+        }
+    </script>
+</body>
+</html>

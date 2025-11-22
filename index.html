@@ -27,17 +27,21 @@
       color: var(--text-dark);
       overflow-x: hidden;
     }
-
+    
+   
+  
     header {
-      background-color: var(--white);
+background-color: var(--white);
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 15px 40px;
       position: sticky;
-      top: 0;
+      top: 0;      
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       z-index: 1000;
+       padding: 12px 18px;
+       height:80px;
     }
 
     header h1 {
@@ -409,12 +413,49 @@
       .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; padding-top: 14px; }
       .footer-desc { max-width: 100%; }
     }
-  
+    .logo {
+  display: block;
+  height: 86px;        /* desktop size — increase from 60px */
+  max-height: 86px;
+  width: auto;
+  object-fit: contain;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-text {
+  color: var(--primary);
+  font-size: 1.20rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+/* responsive: smaller logo on narrow screens */
+@media (max-width: 900px) {
+  .logo {
+    height: 56px;     /* smaller on mobile */
+    max-height: 56px;
+  }
+
+ 
+
+  .brand-text { display: none; } /* hide text on small screens if needed */
+}
+  a {
+  text-decoration: none;   /* removes underline */
+  color: inherit;          /* makes the link use the parent text color */
+}
   </style>
 </head>
 <body>
-  <header>
-    <h1>RetireEase</h1>
+  <!-- <header>
+   <img src="retireeaselogo.png" 
+     alt="RetireEase Logo" 
+     style="height:60px; object-fit:contain;">
+
     <button class="menu-toggle" id="menuToggle">☰</button>
     <nav>
       <ul>
@@ -423,8 +464,8 @@
         <li><a href="#">Finance</a></li>
         <li><a href="#">Community</a></li>
         
-        <li><a href="#" class="btn-login">Login</a></li>
-        <li><a href="#" class="btn-signup">Sign Up</a></li>
+        <li><a href="login.html" class="btn-login">Login</a></li>
+        <li><a href="signup.html" class="btn-signup">Sign Up</a></li>
       </ul>
       <ul class="sidebar" id="sidebar">
         <button class="close-btn" id="closeBtn">×</button>
@@ -440,7 +481,35 @@
         <li><a href="#" class="btn-signup">Sign Up</a></li>
       </ul>
     </nav>
-  </header>
+  </header> -->
+<header>
+  <div class="header-left">
+    <img src="retireeaselogo.png"
+         alt="RetireEase Logo"
+         class="logo">
+              <span class="brand-text">RetireEase</span>
+    
+  </div>
+
+  <button class="menu-toggle" id="menuToggle">☰</button>
+
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="health.html">Health</a></li>
+      <li><a href="finance.html">Finance</a></li>
+      <li><a href="community.html">Community</a></li>
+      <li><a href="login.html" class="btn-login">Login</a></li>
+      <li><a href="signup.html" class="btn-signup">Sign Up</a></li>
+    </ul>
+
+    <!-- mobile sidebar unchanged -->
+    <ul class="sidebar" id="sidebar">
+      <button class="close-btn" id="closeBtn">×</button>
+      <!-- sidebar links -->
+    </ul>
+  </nav>
+</header>
 
   <section class="hero">
     
@@ -455,27 +524,38 @@
   <section id="features">
     <h3 class="section-title">Explore Key Sections</h3>
     <div class="cards">
+       <a href="health.html">
       <div class="card">
+       
         <h4>Health</h4>
-        <p>Access wellness tips, fitness programs, and medical guidance to stay active and healthy.</p>
+        <p>Stay healthy with exercise visuals, yoga/meditation sessions, doctor booking, and easy wellness tracking.</p>
       </div>
-      <div class="card">
+    </a>
+      <a href="finance.html"><div class="card">
         <h4>Finance</h4>
-        <p>Manage your retirement funds with budgeting tools, investment guides, and pension planners.</p>
+        <p>Track budgets, plan investments, and use smart tools to manage your savings with confidence..</p>
       </div>
-      <div class="card">
+    </a>
+      <a href="community.html"><div class="card">
         <h4>Community</h4>
-        <p>Connect with other retirees through forums, virtual meetups, and social events.</p>
+        <p>Connect through forums, interest groups, and meaningful conversations with fellow retirees.</p>
       </div>
+      </a>
+      <a href="blogs.html">
       <div class="card">
-        <h4>Blogs</h4>
-        <p>Share your insights, experiences, and stories while engaging with the community to inspire others.</p>
+        <h4>
+          Create and Share Your stories
+        </h4>
+        <p>Share stories and climb the leaderboard as your posts earn likes, views, and recognition.</p>
       </div>
+    </a>
+
     </div>
     <div class="cards" id="blogContainer"></div>
 
   </section>
-   <section id="blogs">
+   <section id="blogs
+   ">
    
     <h3 class="section-title">Community Blogs</h3>
 
@@ -491,7 +571,10 @@
       <div class="footer-col footer-brand">
         <!-- small logo (SVG) -->
         <div class="footer-logo">
-          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <!-- <svg width="44" height="44" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"> -->
+            <img src="retireeaselogo.png"
+         alt="RetireEase Logo"
+         class="logo" style="height:44px; object-fit:contain;">
             <rect width="24" height="24" rx="4" fill="#EDB82F"></rect>
             <path d="M7 15c1-2 5-6 10-7" stroke="#111827" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>

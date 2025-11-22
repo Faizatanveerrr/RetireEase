@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RetireEase — Health</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* subtle animation for exercise cards */
+      .pulse-animation { animation: pulse 3s ease-in-out infinite; }
+      @keyframes pulse { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
+      .glass { background: rgba(255,255,255,0.6); backdrop-filter: blur(6px); }
+      /* ensure interactive elements are large enough on small screens */
+      button, input, select { min-height: 42px; }
+      .file-preview { max-height: 160px; object-fit: contain; }
+    </style>
+  </head>
+  <body class="bg-blue-50 text-gray-800 font-sans">
+    <!-- HERO -->
+    <header class="max-w-7xl mx-auto p-6 flex flex-col lg:flex-row items-center gap-6">
+      <div class="flex-1">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold">Health — RetireEase</h1>
+        <p class="mt-2 text-gray-600">Animated exercises, meditation & yoga booking, mood & sleep insights, BMI & calories — everything to help you stay active and mindful.</p>
+        <div class="mt-4 flex flex-wrap gap-3">
+          <a href="#exercise" class="px-4 py-2 bg-blue-600 text-white rounded shadow">Explore Exercises</a>
+          <a href="#dashboard" class="px-4 py-2 border border-blue-600 text-blue-600 rounded">Open Dashboard</a>
+        </div>
+      </div>
+      <div class="w-full lg:w-1/3">
+        <img src="retireeasehealth.png" alt="RetireEase Health"
+        style="width:100%; border-radius:12px; object-fit:cover;" class="rounded-lg shadow-lg object-cover w-full h-44 sm:h-56 md:h-44 lg:h-40" />
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Left column: Features (spans 2 on large screens) -->
+      <section class="lg:col-span-2 space-y-6">
+      <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+  <!-- Gentle Cardio -->
+  <div class="p-4 rounded-lg border border-dashed border-gray-200 flex flex-col items-center text-center pulse-animation">
+    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-blue-200 to-blue-100 
+                flex items-center justify-center overflow-hidden">
+      <img 
+        src="cardio.png"
+        alt="Cardio Avatar"
+        class="w-full h-full object-cover"
+      />
+    </div>
+
+    <h3 class="mt-3 font-medium">Gentle Cardio</h3>
+    <p class="text-sm text-gray-600">Low-impact sequences with simple animations.</p>
+    <button id="playGentle" onclick="openExercise('gentle-cardio')" 
+            class="mt-3 px-3 py-1 bg-blue-600 text-white rounded">
+      Play
+    </button>
+  </div>
+
+  <!-- Meditation -->
+  <div class="p-4 rounded-lg border border-dashed border-gray-200 flex flex-col items-center text-center">
+    <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full flex items-center justify-center overflow-hidden 
+                bg-green-50" style="box-shadow: inset 0 0 0 6px rgba(167,243,208,0.45);">
+      <img
+        src="meditation.png"
+        alt="Meditation Avatar"
+        class="w-full h-full object-cover"
+      />
+    </div>
+
+    <h3 class="mt-3 font-medium">Meditation</h3>
+    <p class="text-sm text-gray-600">Breathing exercises & short guided meditations.</p>
+    <button class="mt-3 px-3 py-1 bg-green-600 text-white rounded">
+      Open Meditation
+    </button>
+  </div>
+
+</div>
+
+
+        <!-- Meditation & Yoga Booking (dynamic) -->
+        <article id="booking" class="glass rounded-xl p-5 shadow">
+          <h2 class="text-lg sm:text-xl font-semibold">Meditation & Yoga — Book a Session</h2>
+          <p class="mt-2 text-sm text-gray-600">Choose a time, pick a guide, and we'll save it to your calendar. Bookings persist locally (demo).</p>
+
+          <form id="bookingForm" class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <input id="bName" required type="text" placeholder="Your name" class="p-2 rounded border" />
+            <input id="bDatetime" required type="datetime-local" class="p-2 rounded border" />
+            <select id="bType" class="p-2 rounded border">
+              <option>Gentle Yoga</option>
+              <option>Meditation — Guided</option>
+              <option>Breathwork</option>
+            </select>
+            <button type="submit" class="sm:col-span-3 mt-2 px-4 py-2 bg-indigo-600 text-white rounded">Book Session</button>
+          </form>
+
+          <div class="mt-4">
+            <h4 class="font-medium">Your Bookings</h4>
+            <ul id="appointmentsList" class="mt-2 space-y-2"></ul>
+          </div>
+        </article>
+
+        <!-- Mood, Sleep & Challenges -->
+        <article id="mood" class="glass rounded-xl p-5 shadow">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg sm:text-xl font-semibold">Mood, Sleep & Weekly Challenges</h2>
+            <span class="text-sm text-gray-600">Track, improve, celebrate</span>
+          </div>
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="p-3 rounded border bg-white">
+              <h3 class="font-medium">Mood Tracker</h3>
+              <p class="text-sm text-gray-600">Tap to log how you're feeling.</p>
+              <div class="mt-2 flex gap-2">
+                <button onclick="logMood('happy')" class="px-3 py-1 rounded bg-yellow-300">🙂</button>
+                <button onclick="logMood('ok')" class="px-3 py-1 rounded bg-gray-300">😐</button>
+                <button onclick="logMood('sad')" class="px-3 py-1 rounded bg-blue-300">😔</button>
+              </div>
+            </div>
+
+            <div class="p-3 rounded border bg-white">
+              <h3 class="font-medium">Sleep Insights</h3>
+              <p class="text-sm text-gray-600">Log your sleep and see weekly averages and trends.</p>
+
+              <!-- Sleep form -->
+              <form id="sleepForm" class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <input id="sleepDate" type="date" class="p-2 rounded border" />
+                <input id="sleepHours" type="number" step="0.1" min="0" max="24" placeholder="Hours slept" class="p-2 rounded border" />
+                <button type="submit" class="sm:col-span-2 mt-1 px-3 py-2 bg-indigo-600 text-white rounded">Save Sleep</button>
+              </form>
+
+              <div class="mt-3 text-sm text-gray-700">
+                <div>Last night: <span id="sleepLast">—</span></div>
+                <div>7-day average: <span id="sleepAvg">—</span></div>
+              </div>
+            </div>
+
+            <div class="p-3 rounded border bg-white">
+              <h3 class="font-medium">Weekly Challenge</h3>
+              <p class="text-sm text-gray-600">Walk 3,000 steps/day for 5 days</p>
+              <button id="joinChallenge" class="mt-2 px-3 py-1 bg-green-600 text-white rounded">Join</button>
+            </div>
+          </div>
+
+          <!-- Sleep history expanded (mobile-friendly) -->
+          <div id="sleepHistoryCard" class="mt-4 p-3 rounded border bg-white">
+            <h4 class="font-medium">Sleep History (last 14 entries)</h4>
+            <ul id="sleepList" class="mt-2 space-y-1 text-sm text-gray-700"></ul>
+          </div>
+        </article>
+
+        <!-- Appointments & Medication Reminders (now dynamic & responsive) -->
+        <article id="appointments" class="glass rounded-xl p-5 shadow">
+          <h2 class="text-lg sm:text-xl font-semibold">Doctor Appointments & Medication Reminders</h2>
+          <p class="mt-2 text-sm text-gray-600">Keep track of visits and daily meds. Add, edit or remove appointments — data is saved to local storage.</p>
+
+          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="p-3 rounded border bg-white">
+              <h3 class="font-medium">Add Medication Reminder</h3>
+              <form id="medForm" class="mt-2 grid grid-cols-1 gap-2">
+                <input id="medName" placeholder="Medicine name" class="p-2 rounded border" />
+                <input id="medTime" type="time" class="p-2 rounded border" />
+                <button type="submit" class="mt-1 px-3 py-2 bg-blue-600 text-white rounded">Save Reminder</button>
+              </form>
+            </div>
+
+            <div class="p-3 rounded border bg-white">
+              <h3 class="font-medium">Upcoming Appointments</h3>
+              <ul id="apptList" class="mt-2 space-y-2"></ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Medical Records -->
+        <article id="records" class="glass rounded-xl p-5 shadow">
+          <h2 class="text-lg sm:text-xl font-semibold">Medical Records</h2>
+          <p class="mt-2 text-sm text-gray-600">Upload and store medical reports (PDF, image, or text). Keep records private — stored locally in the browser for this demo.</p>
+
+          <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="p-3 rounded border bg-white">
+              <h3 class="font-medium">Add a Record</h3>
+              <form id="recordForm" class="mt-2 grid grid-cols-1 gap-2">
+                <input id="recordTitle" placeholder="Record title (e.g., Blood Test)" class="p-2 rounded border" />
+                <input id="recordFile" type="file" accept="application/pdf,image/*,text/*" class="p-2 rounded border" />
+                <button type="submit" class="mt-1 px-3 py-2 bg-blue-600 text-white rounded">Upload Record</button>
+              </form>
+
+              <div class="mt-2 text-sm text-gray-600">Tip: PDFs and images will be previewed. Text files will be saved and shown inline.</div>
+
+              <button id="addSample" class="mt-3 px-3 py-2 border rounded">Add Sample Report (demo)</button>
+            </div>
+
+            <div class="p-3 rounded border bg-white">
+              <h3 class="font-medium">Your Records</h3>
+              <ul id="recordsList" class="mt-2 space-y-2"></ul>
+            </div>
+          </div>
+
+          <!-- Record viewer modal -->
+          <div id="recordModal" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-50 p-4">
+            <div class="bg-white rounded-lg max-w-3xl w-full p-4">
+              <div class="flex justify-between items-center">
+                <h4 id="modalTitle" class="font-medium">Record</h4>
+                <button id="closeModal" class="px-2 py-1 border rounded">Close</button>
+              </div>
+              <div id="modalBody" class="mt-3"></div>
+            </div>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- Right column: Dashboard & Tools -->
+      <aside class="space-y-6">
+        <div id="dashboard" class="glass rounded-xl p-5 shadow">
+          <h3 class="text-lg font-semibold">Personal Dashboard</h3>
+          <div class="mt-3 text-sm text-gray-700 space-y-1">
+            <div><strong>Mood:</strong> <span id="dashMood">—</span></div>
+            <div><strong>Sleep avg:</strong> <span id="dashSleep">7h 10m</span></div>
+            <div><strong>Weekly steps:</strong> <span id="dashSteps">18,200</span></div>
+          </div>
+        </div>
+
+        <div class="glass rounded-xl p-5 shadow">
+          <h3 class="text-lg font-semibold">BMI & Calories</h3>
+          <form id="bmiForm" class="mt-3 space-y-3">
+            <input id="weight" type="number" placeholder="Weight (kg)" class="w-full p-2 rounded border" />
+            <input id="height" type="number" placeholder="Height (cm)" class="w-full p-2 rounded border" />
+            <button type="submit" class="w-full px-3 py-2 bg-blue-600 text-white rounded">Calculate BMI</button>
+            <div id="bmiResult" class="mt-2 text-sm text-gray-700"></div>
+          </form>
+        </div>
+
+        <div class="glass rounded-xl p-5 shadow">
+          <h3 class="text-lg font-semibold">Emergency & Caregiver</h3>
+          <p class="text-sm text-gray-600 mt-2">Add emergency contacts or enable caregiver view to share selected health info with family.</p>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <button id="sosBtn" class="px-3 py-1 bg-red-600 text-white rounded">SOS</button>
+            <button id="addCare" class="px-3 py-1 border rounded">Add Caregiver</button>
+          </div>
+        </div>
+      </aside>
+      <!-- Exercise Modal (insert near end of body) -->
+<div id="exerciseModal" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-50 p-4 z-50">
+  <div class="bg-white rounded-lg max-w-2xl w-full p-4">
+    <div class="flex justify-between items-center">
+      <h4 id="exerciseTitle" class="font-medium text-lg">Exercise</h4>
+      <button id="closeExerciseBtn" class="px-2 py-1 border rounded">Close</button>
+    </div>
+
+    <div class="mt-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="md:col-span-2">
+        <!-- Use the uploaded image as visual placeholder -->
+        <img id="exerciseImage" src="excercise.png" alt="exercise" class="w-full rounded file-preview" />
+      </div>
+
+      <div class="md:col-span-1 space-y-3 flex flex-col">
+        <div>
+          <div class="text-sm text-gray-600">Duration</div>
+          <select id="exerciseDuration" class="w-full p-2 rounded border">
+            <option value="60">1:00</option>
+            <option value="120" selected>2:00</option>
+            <option value="300">5:00</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="text-sm text-gray-600">Timer</div>
+          <div id="exerciseTimer" class="text-2xl font-semibold">02:00</div>
+          <div class="w-full bg-gray-200 rounded h-3 mt-2">
+            <div id="exerciseProgress" class="h-3 rounded bg-blue-600" style="width:0%"></div>
+          </div>
+        </div>
+
+        <div class="mt-auto flex gap-2">
+          <button id="startExercise" class="flex-1 px-3 py-2 bg-green-600 text-white rounded">Start</button>
+          <button id="pauseExercise" class="px-3 py-2 border rounded">Pause</button>
+          <button id="stopExercise" class="px-3 py-2 border rounded">Stop</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="max-w-7xl mx-auto p-6 text-center text-sm text-gray-500">© RetireEase — Health • Designed for comfort, clarity & dignity.</footer>
+
+    <script>
+      // --- Storage keys ---
+      const STORAGE_KEYS = { appts: 're_appts_v1', meds: 're_meds_v1', bookings: 're_bookings_v1', mood: 're_mood_v1', sleep: 're_sleep_v1', records: 're_records_v1' };
+
+      function saveToStorage(key, arr) { localStorage.setItem(key, JSON.stringify(arr)); }
+      function loadFromStorage(key) { try { return JSON.parse(localStorage.getItem(key)) || []; } catch(e) { return []; } }
+
+      // Seed with a sample appointment if empty (only first visit)
+      if (!localStorage.getItem(STORAGE_KEYS.appts)) {
+        const seed = [{ id: genId(), doctor: 'Dr. Mehta — Cardiology', datetime: '2026-06-12T10:30' }];
+        saveToStorage(STORAGE_KEYS.appts, seed);
+      }
+
+      // --- Render functions ---
+      function renderAppointments() {
+        const list = document.getElementById('apptList'); list.innerHTML = '';
+        const appts = loadFromStorage(STORAGE_KEYS.appts);
+        if (!appts.length) { list.innerHTML = '<div class="text-sm text-gray-600">No appointments scheduled.</div>'; return; }
+        appts.sort((a,b)=> new Date(a.datetime)-new Date(b.datetime));
+        appts.forEach(a => {
+          const li = document.createElement('li'); li.className = 'flex items-start justify-between gap-3';
+          const left = document.createElement('div'); left.innerHTML = `<div class="font-medium">${escapeHtml(a.doctor)}</div><div class="text-sm text-gray-600">${formatDateTime(a.datetime)}</div>`;
+          const controls = document.createElement('div'); controls.className='flex gap-2';
+          const del = document.createElement('button'); del.className='px-2 py-1 border rounded'; del.innerText='Delete'; del.onclick = ()=> { removeAppt(a.id); };
+          controls.appendChild(del);
+          li.appendChild(left); li.appendChild(controls); list.appendChild(li);
+        });
+      }
+
+      function renderBookings() {
+        const list = document.getElementById('appointmentsList'); list.innerHTML='';
+        const bookings = loadFromStorage(STORAGE_KEYS.bookings);
+        if (!bookings.length) { list.innerHTML='<div class="text-sm text-gray-600">No bookings yet.</div>'; return; }
+        bookings.sort((a,b)=> new Date(a.datetime)-new Date(b.datetime));
+        bookings.forEach(b => {
+          const li = document.createElement('li'); li.className='flex items-center justify-between gap-2 p-2 rounded border bg-white';
+          const info = document.createElement('div'); info.innerHTML = `<div class="font-medium">${escapeHtml(b.name)} — ${escapeHtml(b.type)}</div><div class="text-sm text-gray-600">${formatDateTime(b.datetime)}</div>`;
+          const del = document.createElement('button'); del.className='px-2 py-1 border rounded'; del.innerText='Cancel'; del.onclick = ()=> { removeBooking(b.id); };
+          li.appendChild(info); li.appendChild(del); list.appendChild(li);
+        });
+      }
+
+      // --- Sleep functions ---
+      function addSleepEntry(date, hours) {
+        const rows = loadFromStorage(STORAGE_KEYS.sleep);
+        rows.push({ id: genId(), date, hours: parseFloat(hours) });
+        saveToStorage(STORAGE_KEYS.sleep, rows);
+        renderSleep();
+      }
+
+      function renderSleep() {
+        const list = document.getElementById('sleepList'); list.innerHTML='';
+        const rows = loadFromStorage(STORAGE_KEYS.sleep).slice().sort((a,b)=> new Date(b.date)-new Date(a.date));
+        if (!rows.length) { list.innerHTML='<div class="text-sm text-gray-600">No sleep entries yet.</div>'; document.getElementById('sleepLast').innerText='—'; document.getElementById('sleepAvg').innerText='—'; return; }
+        // show last 14 entries
+        const recent = rows.slice(0,14);
+        recent.forEach(r=>{
+          const li = document.createElement('li'); li.className='flex items-center justify-between';
+          li.innerHTML = `<div>${formatShortDate(r.date)}</div><div>${r.hours} hrs</div>`;
+          list.appendChild(li);
+        });
+        // last night
+        document.getElementById('sleepLast').innerText = rows[0].hours + ' hrs (' + formatShortDate(rows[0].date) + ')';
+        // 7-day average (past 7 calendar days)
+        document.getElementById('sleepAvg').innerText = get7DayAverage(rows) + ' hrs';
+        // also update dashboard sleep avg
+        document.getElementById('dashSleep').innerText = get7DayAverage(rows) + ' hrs';
+      }
+
+      function get7DayAverage(rows) {
+        if (!rows.length) return '—';
+        const now = new Date(); const sevenAgo = new Date(); sevenAgo.setDate(now.getDate()-6); // inclusive 7 days
+        // build a map date->hours using latest entry per date
+        const map = {};
+        rows.forEach(r=>{ map[r.date]= (map[r.date] || 0) + r.hours; });
+        // sum hours for last 7 calendar dates
+        let sum=0, count=0;
+        for (let i=0;i<7;i++){ const d=new Date(); d.setDate(now.getDate()-i); const key = d.toISOString().slice(0,10); if (map[key] !== undefined){ sum+=map[key]; count++; } }
+        if (count===0) return '—';
+        return (sum/count).toFixed(1);
+      }
+
+      function formatShortDate(d){ try { return new Date(d).toLocaleDateString(); } catch(e){ return d; } }
+
+      // CRUD for appointments & bookings
+      function addAppt(doctor, datetime) {
+        const appts = loadFromStorage(STORAGE_KEYS.appts);
+        appts.push({ id: genId(), doctor, datetime }); saveToStorage(STORAGE_KEYS.appts, appts); renderAppointments();
+      }
+      function removeAppt(id) { let appts=loadFromStorage(STORAGE_KEYS.appts); appts=appts.filter(a=>a.id!==id); saveToStorage(STORAGE_KEYS.appts, appts); renderAppointments(); }
+
+      function addBooking(name, type, datetime) { const bookings = loadFromStorage(STORAGE_KEYS.bookings); bookings.push({ id: genId(), name, type, datetime }); saveToStorage(STORAGE_KEYS.bookings, bookings); renderBookings(); }
+      function removeBooking(id) { let b=loadFromStorage(STORAGE_KEYS.bookings); b=b.filter(x=>x.id!==id); saveToStorage(STORAGE_KEYS.bookings, b); renderBookings(); }
+
+      // --- Records (medical) ---
+      function renderRecords() {
+        const list = document.getElementById('recordsList'); list.innerHTML='';
+        const rows = loadFromStorage(STORAGE_KEYS.records).slice().sort((a,b)=> new Date(b.uploadedAt)-new Date(a.uploadedAt));
+        if (!rows.length) { list.innerHTML='<div class="text-sm text-gray-600">No records uploaded.</div>'; return; }
+        rows.forEach(r=>{
+          const li = document.createElement('li'); li.className='flex items-center justify-between gap-3 p-2 rounded border bg-white';
+          const info = document.createElement('div'); info.innerHTML = `<div class="font-medium">${escapeHtml(r.title)}</div><div class="text-sm text-gray-600">${new Date(r.uploadedAt).toLocaleString()} • ${escapeHtml(r.type)}</div>`;
+          const controls = document.createElement('div'); controls.className='flex gap-2';
+          const view = document.createElement('button'); view.className='px-2 py-1 border rounded'; view.innerText='View'; view.onclick = ()=> { openRecord(r.id); };
+          const dl = document.createElement('button'); dl.className='px-2 py-1 border rounded'; dl.innerText='Download'; dl.onclick = ()=> { downloadRecord(r.id); };
+          const del = document.createElement('button'); del.className='px-2 py-1 border rounded'; del.innerText='Delete'; del.onclick = ()=> { removeRecord(r.id); };
+          controls.appendChild(view); controls.appendChild(dl); controls.appendChild(del);
+          li.appendChild(info); li.appendChild(controls); list.appendChild(li);
+        });
+      }
+
+      function addRecordFromData(title, type, dataUrl) {
+        const rows = loadFromStorage(STORAGE_KEYS.records);
+        rows.push({ id: genId(), title: title||'Untitled', type: type||'unknown', url: dataUrl, uploadedAt: new Date().toISOString() });
+        saveToStorage(STORAGE_KEYS.records, rows); renderRecords();
+      }
+
+      function removeRecord(id) { let rows=loadFromStorage(STORAGE_KEYS.records); rows=rows.filter(r=>r.id!==id); saveToStorage(STORAGE_KEYS.records, rows); renderRecords(); }
+
+      function openRecord(id) {
+        const rows=loadFromStorage(STORAGE_KEYS.records); const r = rows.find(x=>x.id===id); if(!r) return alert('Record not found');
+        const modal = document.getElementById('recordModal'); document.getElementById('modalTitle').innerText = r.title;
+        const body = document.getElementById('modalBody'); body.innerHTML='';
+        if (r.type.startsWith('image')) { const img = document.createElement('img'); img.src = r.url; img.className='w-full file-preview'; body.appendChild(img); }
+        else if (r.type==='application/pdf' || r.url.endsWith('.pdf')) { const iframe = document.createElement('iframe'); iframe.src = r.url; iframe.className='w-full' ; iframe.style.height='600px'; body.appendChild(iframe); }
+        else if (r.type.startsWith('text') || r.type==='text/plain') { fetch(r.url).then(res=>res.text()).then(t=>{ const pre=document.createElement('pre'); pre.className='whitespace-pre-wrap text-sm'; pre.innerText=t; body.appendChild(pre); }).catch(()=>{ const p=document.createElement('div'); p.innerText='Unable to load text file.'; body.appendChild(p); }); }
+        else { const p=document.createElement('div'); p.innerHTML = `<a href="${r.url}" target="_blank" class="text-blue-600 underline">Open file</a>`; body.appendChild(p); }
+        modal.classList.remove('hidden'); modal.classList.add('flex');
+      }
+
+      function downloadRecord(id) {
+        const rows=loadFromStorage(STORAGE_KEYS.records); const r = rows.find(x=>x.id===id); if(!r) return alert('Record not found');
+        const a = document.createElement('a'); a.href = r.url; a.download = r.title || 'record'; document.body.appendChild(a); a.click(); a.remove();
+      }
+
+      // --- Seed sample record using uploaded asset path (developer-provided) ---
+      const SAMPLE_PATH = '/mnt/data/55e2b376-183b-48cb-aaf9-a1ce2529ba40.png';
+      function addSampleReport() {
+        // use the local path as the URL — the environment/tooling will transform this into a proper link for demo/testing
+        addRecordFromData('Sample Blood Report', 'image/png', SAMPLE_PATH);
+        alert('Sample report added.');
+      }
+
+      // Helpers
+      function genId(){ return Math.random().toString(36).slice(2,9); }
+      function formatDateTime(dt){ try { const d = new Date(dt); return d.toLocaleString(); } catch(e){return dt;} }
+      function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+      // --- Event handlers ---
+      document.getElementById('bookingForm').addEventListener('submit', e=>{
+        e.preventDefault(); const name=document.getElementById('bName').value.trim(); const datetime=document.getElementById('bDatetime').value; const type=document.getElementById('bType').value;
+        if (!name||!datetime) return alert('Please enter name and time'); addBooking(name,type,datetime); document.getElementById('bookingForm').reset();
+      });
+
+      // medication form
+      document.getElementById('medForm').addEventListener('submit', e=>{
+        e.preventDefault(); const med=document.getElementById('medName').value.trim(); const time=document.getElementById('medTime').value; if(!med||!time) return alert('Please enter medicine and time'); const meds=loadFromStorage(STORAGE_KEYS.meds); meds.push({id:genId(), med, time}); saveToStorage(STORAGE_KEYS.meds, meds); document.getElementById('medForm').reset(); alert('Medication reminder saved (demo)'); renderMeds();
+      });
+
+      // sleep form
+      document.getElementById('sleepForm').addEventListener('submit', e=>{
+        e.preventDefault(); const date=document.getElementById('sleepDate').value || new Date().toISOString().slice(0,10); const hours=document.getElementById('sleepHours').value; if(!hours) return alert('Please enter hours slept'); addSleepEntry(date, hours); document.getElementById('sleepForm').reset();
+      });
+
+      // record form
+      document.getElementById('recordForm').addEventListener('submit', e=>{
+        e.preventDefault(); const title = document.getElementById('recordTitle').value.trim() || 'Untitled'; const fileInput = document.getElementById('recordFile'); if (!fileInput.files || !fileInput.files.length) return alert('Please select a file');
+        const file = fileInput.files[0]; const reader = new FileReader(); reader.onload = function(ev){ const dataUrl = ev.target.result; addRecordFromData(title, file.type||file.name.split('.').pop(), dataUrl); document.getElementById('recordForm').reset(); alert('Record uploaded (saved locally).'); };
+        // For text files, reader.readAsText then create data URL; for others readAsDataURL
+        if (file.type && file.type.startsWith('text')) { reader.readAsText(file); reader.onload = function(ev){ const text = ev.target.result; const blob = new Blob([text], {type: 'text/plain'}); const url = URL.createObjectURL(blob); addRecordFromData(title, 'text/plain', url); document.getElementById('recordForm').reset(); alert('Text record saved (demo).'); } } else { reader.readAsDataURL(file); }
+      });
+
+      document.getElementById('addSample').addEventListener('click', addSampleReport);
+
+      document.getElementById('closeModal').addEventListener('click', ()=>{ const modal=document.getElementById('recordModal'); modal.classList.add('hidden'); modal.classList.remove('flex'); document.getElementById('modalBody').innerHTML=''; });
+
+      // medication form
+      document.getElementById('medForm').addEventListener('submit', e=>{});
+
+      // BMI form
+      document.getElementById('bmiForm').addEventListener('submit', e=>{ e.preventDefault(); const w=parseFloat(document.getElementById('weight').value); const hCm=parseFloat(document.getElementById('height').value); const out=document.getElementById('bmiResult'); if(!w||!hCm){ out.innerText='Please enter weight and height.'; return; } const h=hCm/100; const bmi=w/(h*h); let cat=''; if(bmi<18.5)cat='Underweight'; else if(bmi<25)cat='Normal'; else if(bmi<30)cat='Overweight'; else cat='Obese'; out.innerText='BMI: '+bmi.toFixed(1)+' — '+cat; });
+
+      // Mood logging
+      function logMood(m){ localStorage.setItem(STORAGE_KEYS.mood, m); document.getElementById('dashMood').innerText=m; alert('Mood logged: '+m); }
+
+      // Simple SOS + caregiver stubs
+      document.getElementById('sosBtn').addEventListener('click', ()=>{ alert('SOS triggered — demo.'); });
+      document.getElementById('addCare').addEventListener('click', ()=>{ alert('Caregiver mode enabled — demo.'); });
+// --- Meds renderer (stub) ---
+// Minimal safe implementation so script won't throw if meds are empty.
+// You can later replace this with a full UI render into a dedicated element.
+function renderMeds() {
+  try {
+    const listEl = document.getElementById('medsList'); // optional future container
+    const meds = loadFromStorage(STORAGE_KEYS.meds) || [];
+    // if there's a DOM node to show meds, render them; otherwise keep it quiet
+    if (listEl) {
+      listEl.innerHTML = '';
+      if (!meds.length) {
+        listEl.innerHTML = '<div class="text-sm text-gray-600">No medication reminders.</div>';
+        return;
+      }
+      meds.forEach(m => {
+        const li = document.createElement('div');
+        li.className = 'flex items-center justify-between text-sm';
+        li.innerHTML = `<div>${escapeHtml(m.med)} — ${escapeHtml(m.time)}</div><div><button class="px-2 py-1 border rounded" onclick="removeMed('${m.id}')">Delete</button></div>`;
+        listEl.appendChild(li);
+      });
+    }
+  } catch (err) {
+    // keep silent so page doesn't break
+    console.warn('renderMeds error', err);
+  }
+}
+
+// tiny helper to delete med (optional)
+function removeMed(id) {
+  const meds = loadFromStorage(STORAGE_KEYS.meds).filter(m => m.id !== id);
+  saveToStorage(STORAGE_KEYS.meds, meds);
+  renderMeds();
+}
+
+      // Utilities on load
+      function init() { renderAppointments(); renderBookings(); renderMeds(); renderSleep(); renderRecords(); const m=localStorage.getItem(STORAGE_KEYS.mood) || '—'; document.getElementById('dashMood').innerText=m; }
+      init();
+    //   <script>
+  // --- Exercise modal + simple timer player ---
+  let exerciseState = {
+    timer: null,
+    remaining: 0,   // in seconds
+    total: 0,
+    running: false,
+  };
+
+  function formatTime(sec) {
+    const m = Math.floor(sec / 60).toString().padStart(2, '0');
+    const s = Math.floor(sec % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  function openExercise(id) {
+    // Configure modal content based on id (extendable)
+    const title = id === 'gentle-cardio' ? 'Gentle Cardio — Low-impact' : 'Exercise';
+    document.getElementById('exerciseTitle').innerText = title;
+
+    // optionally swap the image depending on exercise:
+    // if (id === 'gentle-cardio') document.getElementById('exerciseImage').src = '/mnt/data/your-cardio-image.png';
+    // using provided uploaded file path:
+    document.getElementById('exerciseImage').src = 'excercise.png';
+
+    // default duration is whatever select has
+    const dur = parseInt(document.getElementById('exerciseDuration').value, 10) || 120;
+    exerciseState.total = dur;
+    exerciseState.remaining = dur;
+    updateExerciseUI();
+
+    const modal = document.getElementById('exerciseModal');
+    modal.classList.remove('hidden'); modal.classList.add('flex');
+  }
+
+  function closeExercise() {
+    stopExercise();
+    const modal = document.getElementById('exerciseModal');
+    modal.classList.add('hidden'); modal.classList.remove('flex');
+  }
+
+  function startExercise() {
+    if (exerciseState.running) return;
+    exerciseState.running = true;
+    // start timer
+    exerciseState.timer = setInterval(() => {
+      if (exerciseState.remaining <= 0) {
+        stopExercise(); alert('Nice! Session complete 🎉');
+        return;
+      }
+      exerciseState.remaining -= 1;
+      updateExerciseUI();
+    }, 1000);
+  }
+
+  function pauseExercise() {
+    if (!exerciseState.running) return;
+    exerciseState.running = false;
+    clearInterval(exerciseState.timer);
+    exerciseState.timer = null;
+  }
+
+  function stopExercise() {
+    clearInterval(exerciseState.timer);
+    exerciseState.timer = null;
+    exerciseState.running = false;
+    exerciseState.remaining = exerciseState.total || 0;
+    updateExerciseUI();
+  }
+
+  function updateExerciseUI() {
+    const timerEl = document.getElementById('exerciseTimer');
+    timerEl.innerText = formatTime(exerciseState.remaining);
+    const pct = exerciseState.total ? ((exerciseState.total - exerciseState.remaining) / exerciseState.total) * 100 : 0;
+    document.getElementById('exerciseProgress').style.width = pct + '%';
+  }
+
+  // Hook up modal controls
+  document.getElementById('closeExerciseBtn').addEventListener('click', closeExercise);
+  document.getElementById('startExercise').addEventListener('click', startExercise);
+  document.getElementById('pauseExercise').addEventListener('click', () => { pauseExercise(); });
+  document.getElementById('stopExercise').addEventListener('click', () => { stopExercise(); });
+
+  // If user changes duration while modal open, reset the counts to the chosen value
+  document.getElementById('exerciseDuration').addEventListener('change', (e) => {
+    exerciseState.total = parseInt(e.target.value, 10) || exerciseState.total;
+    exerciseState.remaining = exerciseState.total;
+    updateExerciseUI();
+  });
+
+  // Optional: close modal when clicking backdrop
+  document.getElementById('exerciseModal').addEventListener('click', (ev) => {
+    if (ev.target === document.getElementById('exerciseModal')) closeExercise();
+  });
+
+//   <script>
+  /**
+   * goToNextSlide(slug)
+   * - placeholder that navigates to a "next slide"
+   * - stores a small flag in localStorage and dispatches a custom event
+   * - Replace or extend with your actual slide-renderer later
+   */
+//   function goToNextSlide(slug) {
+//     try {
+//       // set a URL hash so users can bookmark / deep-link if needed
+//       window.location.hash = 'nextSlide';
+
+//       // store a small signal so your future slide code can read what to render
+//       localStorage.setItem('re_pending_slide', slug || 'meditation');
+
+//       // dispatch a custom event other modules can listen to
+//       window.dispatchEvent(new CustomEvent('re:nextSlide', { detail: { from: slug || 'meditation', ts: Date.now() } }));
+
+//       // lightweight UX feedback
+//       // you can remove the alert in production (or replace with a toast)
+//       alert('Going to next slide — placeholder. Your slide renderer can listen for the "re:nextSlide" event or read localStorage.re_pending_slide.');
+//     } catch (err) {
+//       console.error('goToNextSlide error', err);
+//     }
+//   }
+
+//   // Example listener (optional) — remove if you don't want demo behavior
+//   // When you implement your real slide code, either listen here or remove this block.
+//   window.addEventListener('re:nextSlide', (ev) => {
+//     console.log('re:nextSlide event received:', ev.detail);
+//     // demo: smoothly scroll to an anchor named nextSlide if present
+//     const anchor = document.querySelector('#nextSlide');
+//     if (anchor) anchor.scrollIntoView({ behavior: 'smooth' });
+//   });
+
+
+    </script>
+  </body>
+</html>
