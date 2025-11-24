@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meditation App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <video autoplay muted loop id="bgVideo">
+    <source src="143197-781982739.mp4" type="video/mp4">
+    </video>
+    <header  class="header">
+        <h1>Meditation Timer</h1>
+    </header>
+
+    <main  class="main-content">
+        <!-- Control Section -->
+        <section class="controls">
+            <div class="control-btn pause">
+                <img src="13pause.png" alt="Pause">
+            </div>
+            
+            <div class="progress-svg">
+                <svg width="200" height="200" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <clipPath id="diamond-clip">
+                            <path d="M50 5 L95 50 L50 95 L5 50 Z" />
+                        </clipPath>
+                    </defs>
+                    <rect x="0" y="0" width="100" height="100" fill="#2c3e50" clip-path="url(#diamond-clip)" />
+                    <path d="M50 5 L95 50 L50 95 L5 50 Z" stroke="white" stroke-width="4" stroke-linejoin="round" />
+                    <circle
+                        id="progressCircle"
+                        cx="50"
+                        cy="50"
+                        r="50"
+                        stroke="#e74c3c"
+                        stroke-width="4"
+                        fill="none"
+                        clip-path="url(#diamond-clip)"
+                        stroke-dasharray="314.16"
+                        stroke-dashoffset="280"
+                        stroke-linecap="round"
+                    />
+                    
+                </svg>
+                
+    
+    <div id="timeDisplay">
+        02:00
+    </div>
+            </div>
+
+            <div class="control-btn play">
+                <img src="12play-button.png" alt="Play">
+            </div>
+        </section>
+
+        <!-- Timer Section -->
+        <section class="timer-buttons">
+             <div >
+              
+              <button id="02" class="timer-btn">2 min</button>
+            </div>
+            <div >
+              
+              <button id="05" class="timer-btn">5 min</button>
+            </div>
+            <div >
+              
+              <button id="10" class="timer-btn">10 min</button>
+            </div>
+            <div >
+              
+              <button id="20" class="timer-btn">20 min</button>
+            </div>
+            <div>
+              
+              <button id="30" class="timer-btn">30 min</button>
+            </div>
+          
+        </section>
+
+        <!-- Background Themes Section -->
+        <section class="background-themes">
+            <div class="theme-card">
+                <img id="summer" src="Autumn Leaves GIF.gif" alt="Summer Beach">
+                <p>Summer</p>
+            </div>
+            <div class="theme-card">
+                <img id="winter" src="Christmas Tree Snow GIF.gif" alt="winter">
+                <p>Winter</p>
+            </div>
+            <div class="theme-card">
+                <img id="rainfall" src="grain raining GIF.gif" alt="rainfall">
+                <p>Rainfall</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
