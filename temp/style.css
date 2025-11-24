@@ -1,0 +1,146 @@
+/* Global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    
+}
+
+body {
+    min-height: 100vh;
+    background: url("fabrizio-conti-6ACqcrupN2M-unsplash.jpg") no-repeat center center fixed;
+    background-size: cover;
+    padding: 20px;
+    
+}
+
+.header {
+    text-align: center;
+    color:#E8D9B9;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 2rem;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 8px #D3C7F5;
+}
+
+/* Controls Section */
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+#timeDisplay{
+        position: absolute;
+        top: 28%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 25px;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+}
+.control-btn img {
+    width: 80px;
+    cursor: pointer;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.control-btn img:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 15px #D3C7F5);
+}
+
+.progress-svg svg {
+   
+    width: 200px;
+    height: 200px;
+}
+
+
+
+
+
+/* Timer Buttons */
+.timer-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.timer-btn {
+    padding: 10px 20px;
+    margin-top: 100px;
+    background: #2D2351;
+    color: #E8D9B9;
+    border: 2px solid #E8D9B9;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.timer-btn:hover {
+    background:#D3C7F5;
+    border-color: #E8D9B9;
+    transform: scale(1.05);
+}
+ /* background video */
+#bgVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+/* Background Themes */
+.background-themes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+
+.theme-card {
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.theme-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    filter: drop-shadow(0 0 10px #000);
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.theme-card img:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 15px #D3C7F5);
+}
+
+.theme-card p {
+    margin-top: 8px;
+    color: azure;
+    font-weight: bold;
+}
+
+.all{
+    opacity: 1;
+}
+
+.header , .main-content{
+    transition: opacity 1s ease;
+}
